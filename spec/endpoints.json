@@ -1,0 +1,2669 @@
+{
+ "apiVersion": "v2-20260827-612a7f4e02",
+ "operations": [
+  {
+   "method": "GET",
+   "path": "/{administration_id}/assets{format}",
+   "operationId": "get_administration_id_assets",
+   "summary": "List all assets",
+   "tag": "Assets",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets{format}",
+   "operationId": "post_administration_id_assets",
+   "summary": "Create a new asset",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/assets/{id}{format}",
+   "operationId": "get_administration_id_assets_id",
+   "summary": "Get an asset by ID",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/assets/{id}{format}",
+   "operationId": "patch_administration_id_assets_id",
+   "summary": "Update an asset",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/assets/{id}{format}",
+   "operationId": "delete_administration_id_assets_id",
+   "summary": "Delete an asset",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets/{id}/disposals{format}",
+   "operationId": "post_administration_id_assets_id_disposals",
+   "summary": "Create a disposal",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets/{id}/reinvestment_reserve_purchase{format}",
+   "operationId": "post_administration_id_assets_id_reinvestment_reserve_purchase",
+   "summary": "Create a reinvestment reserve purchase",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/assets/{id}/reinvestment_reserve_purchase{format}",
+   "operationId": "delete_administration_id_assets_id_reinvestment_reserve_purchase",
+   "summary": "Delete a reinvestment reserve purchase",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets/{id}/reinvestment_reserve_sale{format}",
+   "operationId": "post_administration_id_assets_id_reinvestment_reserve_sale",
+   "summary": "Create a reinvestment reserve sale",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/assets/{id}/reinvestment_reserve_sale{format}",
+   "operationId": "delete_administration_id_assets_id_reinvestment_reserve_sale",
+   "summary": "Delete a reinvestment reserve sale",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets/{id}/sources{format}",
+   "operationId": "post_administration_id_assets_id_sources",
+   "summary": "Add a source to an asset",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/assets/{id}/sources/{source_id}{format}",
+   "operationId": "delete_administration_id_assets_id_sources_source_id",
+   "summary": "Delete a source",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets/{id}/value_changes/arbitrary{format}",
+   "operationId": "post_administration_id_assets_id_value_changes_arbitrary",
+   "summary": "Create an arbitrary value change",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets/{id}/value_changes/divestment{format}",
+   "operationId": "post_administration_id_assets_id_value_changes_divestment",
+   "summary": "Create a divestment value change",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets/{id}/value_changes/full_depreciation{format}",
+   "operationId": "post_administration_id_assets_id_value_changes_full_depreciation",
+   "summary": "Create a full depreciation value change",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets/{id}/value_changes/manual{format}",
+   "operationId": "post_administration_id_assets_id_value_changes_manual",
+   "summary": "Create a manual value change",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/assets/{id}/value_changes/retroactive_linear_value_changes{format}",
+   "operationId": "post_administration_id_assets_id_value_changes_retroactive_linear_value_changes",
+   "summary": "Create linear value changes retroactively",
+   "tag": "Assets",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/contacts{format}",
+   "operationId": "get_administration_id_contacts",
+   "summary": "List all contacts",
+   "tag": "Contacts",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/contacts{format}",
+   "operationId": "post_administration_id_contacts",
+   "summary": "Create a new contact",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/contacts/{contact_id}/contact_people{format}",
+   "operationId": "post_administration_id_contacts_contact_id_contact_people",
+   "summary": "Create a new contact person",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/contacts/{contact_id}/contact_people/{id}{format}",
+   "operationId": "get_administration_id_contacts_contact_id_contact_people_id",
+   "summary": "Get contact person",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/contacts/{contact_id}/contact_people/{id}{format}",
+   "operationId": "patch_administration_id_contacts_contact_id_contact_people_id",
+   "summary": "Update a contact person",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/contacts/{contact_id}/contact_people/{id}{format}",
+   "operationId": "delete_administration_id_contacts_contact_id_contact_people_id",
+   "summary": "Delete a contact person",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/contacts/{contact_id}/moneybird_payments_mandate{format}",
+   "operationId": "get_administration_id_contacts_contact_id_moneybird_payments_mandate",
+   "summary": "Get Moneybird Payments mandate",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/contacts/{contact_id}/moneybird_payments_mandate{format}",
+   "operationId": "post_administration_id_contacts_contact_id_moneybird_payments_mandate",
+   "summary": "Request a new Moneybird Payments mandate",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/contacts/{contact_id}/moneybird_payments_mandate{format}",
+   "operationId": "delete_administration_id_contacts_contact_id_moneybird_payments_mandate",
+   "summary": "Delete a stored Moneybird Payments mandate",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/contacts/{contact_id}/moneybird_payments_mandate/url{format}",
+   "operationId": "post_administration_id_contacts_contact_id_moneybird_payments_mandate_url",
+   "summary": "Request an URL for setting up a Moneybird Payments mandate",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/contacts/{contact_id}/notes{format}",
+   "operationId": "post_administration_id_contacts_contact_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/contacts/{contact_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_contacts_contact_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/contacts/{id}{format}",
+   "operationId": "get_administration_id_contacts_id",
+   "summary": "Get contact",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/contacts/{id}{format}",
+   "operationId": "patch_administration_id_contacts_id",
+   "summary": "Update a contact",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/contacts/{id}{format}",
+   "operationId": "delete_administration_id_contacts_id",
+   "summary": "Delete a contact",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/contacts/{id}/additional_charges{format}",
+   "operationId": "post_administration_id_contacts_id_additional_charges",
+   "summary": "Create an additional charge to be invoiced at start of next period",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/contacts/{id}/additional_charges{format}",
+   "operationId": "get_administration_id_contacts_id_additional_charges",
+   "summary": "Get additional charges",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/contacts/{id}/archive{format}",
+   "operationId": "patch_administration_id_contacts_id_archive",
+   "summary": "Archive a contact",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/contacts/customer_id/{customer_id}{format}",
+   "operationId": "get_administration_id_contacts_customer_id_customer_id",
+   "summary": "Get contact by customer id",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/contacts/filter{format}",
+   "operationId": "get_administration_id_contacts_filter",
+   "summary": "Filter contacts",
+   "tag": "Contacts",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/contacts/synchronization{format}",
+   "operationId": "get_administration_id_contacts_synchronization",
+   "summary": "List all ids and versions",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/contacts/synchronization{format}",
+   "operationId": "post_administration_id_contacts_synchronization",
+   "summary": "Fetch contacts with given ids",
+   "tag": "Contacts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/custom_fields{format}",
+   "operationId": "get_administration_id_custom_fields",
+   "summary": "List all custom fields",
+   "tag": "Custom fields",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/customer_contact_portal/{contact_id}{format}",
+   "operationId": "get_administration_id_customer_contact_portal_contact_id",
+   "summary": "Get a temporary link to the customer contact portal",
+   "tag": "Customer contact portal",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/customer_contact_portal/{contact_id}/invoices{format}",
+   "operationId": "get_administration_id_customer_contact_portal_contact_id_invoices",
+   "summary": "Get a temporary link to the invoices in the customer contact portal",
+   "tag": "Customer contact portal",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/customer_contact_portal/{contact_id}/subscriptions/{id}{format}",
+   "operationId": "get_administration_id_customer_contact_portal_contact_id_subscriptions_id",
+   "summary": "Get a temporary link to the subscriptions in the customer contact portal",
+   "tag": "Customer contact portal",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/document_styles{format}",
+   "operationId": "get_administration_id_document_styles",
+   "summary": "List all document styles",
+   "tag": "Document styles",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/general_documents{format}",
+   "operationId": "get_administration_id_documents_general_documents",
+   "summary": "Get general documents",
+   "tag": "Documents: General documents",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/general_documents{format}",
+   "operationId": "post_administration_id_documents_general_documents",
+   "summary": "Create a new general document",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/general_documents/{general_document_id}/notes{format}",
+   "operationId": "post_administration_id_documents_general_documents_general_document_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/general_documents/{general_document_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_documents_general_documents_general_document_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/general_documents/{id}{format}",
+   "operationId": "get_administration_id_documents_general_documents_id",
+   "summary": "Get general document",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/general_documents/{id}{format}",
+   "operationId": "delete_administration_id_documents_general_documents_id",
+   "summary": "Delete a general document",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/documents/general_documents/{id}{format}",
+   "operationId": "patch_administration_id_documents_general_documents_id",
+   "summary": "Update a general document",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/general_documents/{id}/attachments{format}",
+   "operationId": "post_administration_id_documents_general_documents_id_attachments",
+   "summary": "Add attachment to general document",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/general_documents/{id}/attachments/{attachment_id}{format}",
+   "operationId": "delete_administration_id_documents_general_documents_id_attachments_attachment_id",
+   "summary": "Delete an attachment",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/general_documents/{id}/attachments/{attachment_id}/download{format}",
+   "operationId": "get_administration_id_documents_general_documents_id_attachments_attachment_id_download",
+   "summary": "Download attachment",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/general_documents/synchronization{format}",
+   "operationId": "get_administration_id_documents_general_documents_synchronization",
+   "summary": "List ids and versions of general documents",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/general_documents/synchronization{format}",
+   "operationId": "post_administration_id_documents_general_documents_synchronization",
+   "summary": "Fetch general documents with given ids",
+   "tag": "Documents: General documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/general_journal_documents{format}",
+   "operationId": "get_administration_id_documents_general_journal_documents",
+   "summary": "Get general journal documents",
+   "tag": "Documents: General journal documents",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/general_journal_documents{format}",
+   "operationId": "post_administration_id_documents_general_journal_documents",
+   "summary": "Create a new general journal document",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/general_journal_documents/{general_journal_document_id}/notes{format}",
+   "operationId": "post_administration_id_documents_general_journal_documents_general_journal_document_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/general_journal_documents/{general_journal_document_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_documents_general_journal_documents_general_journal_document_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/general_journal_documents/{id}{format}",
+   "operationId": "get_administration_id_documents_general_journal_documents_id",
+   "summary": "Get general journal document",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/general_journal_documents/{id}{format}",
+   "operationId": "delete_administration_id_documents_general_journal_documents_id",
+   "summary": "Delete a general journal document",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/documents/general_journal_documents/{id}{format}",
+   "operationId": "patch_administration_id_documents_general_journal_documents_id",
+   "summary": "Update a general journal document",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/general_journal_documents/{id}/attachments{format}",
+   "operationId": "post_administration_id_documents_general_journal_documents_id_attachments",
+   "summary": "Add attachment to general journal document",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/general_journal_documents/{id}/attachments/{attachment_id}{format}",
+   "operationId": "delete_administration_id_documents_general_journal_documents_id_attachments_attachment_id",
+   "summary": "Delete an attachment",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/general_journal_documents/{id}/attachments/{attachment_id}/download{format}",
+   "operationId": "get_administration_id_documents_general_journal_documents_id_attachments_attachment_id_download",
+   "summary": "Download attachment",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/general_journal_documents/synchronization{format}",
+   "operationId": "get_administration_id_documents_general_journal_documents_synchronization",
+   "summary": "List ids and versions of general journal documents",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/general_journal_documents/synchronization{format}",
+   "operationId": "post_administration_id_documents_general_journal_documents_synchronization",
+   "summary": "Fetch general journal documents with given ids",
+   "tag": "Documents: General journal documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/purchase_invoices{format}",
+   "operationId": "get_administration_id_documents_purchase_invoices",
+   "summary": "Get purchase invoices",
+   "tag": "Documents: Purchase invoices",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/purchase_invoices{format}",
+   "operationId": "post_administration_id_documents_purchase_invoices",
+   "summary": "Create a new purchase invoice",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/purchase_invoices/{id}{format}",
+   "operationId": "get_administration_id_documents_purchase_invoices_id",
+   "summary": "Get purchase invoice",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/purchase_invoices/{id}{format}",
+   "operationId": "delete_administration_id_documents_purchase_invoices_id",
+   "summary": "Delete a purchase invoices",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/documents/purchase_invoices/{id}{format}",
+   "operationId": "patch_administration_id_documents_purchase_invoices_id",
+   "summary": "Update purchase invoice",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/purchase_invoices/{id}/attachments{format}",
+   "operationId": "post_administration_id_documents_purchase_invoices_id_attachments",
+   "summary": "Add attachment to purchase invoice",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/purchase_invoices/{id}/attachments/{attachment_id}{format}",
+   "operationId": "delete_administration_id_documents_purchase_invoices_id_attachments_attachment_id",
+   "summary": "Delete an attachment",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/purchase_invoices/{id}/attachments/{attachment_id}/download{format}",
+   "operationId": "get_administration_id_documents_purchase_invoices_id_attachments_attachment_id_download",
+   "summary": "Download attachment",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/purchase_invoices/{id}/payments{format}",
+   "operationId": "post_administration_id_documents_purchase_invoices_id_payments",
+   "summary": "Create a payment",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/purchase_invoices/{id}/payments/{payment_id}{format}",
+   "operationId": "delete_administration_id_documents_purchase_invoices_id_payments_payment_id",
+   "summary": "Delete a payment",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/documents/purchase_invoices/{id}/register_payment{format}",
+   "operationId": "patch_administration_id_documents_purchase_invoices_id_register_payment",
+   "summary": "Register a payment for a purchase invoice",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/purchase_invoices/{purchase_invoice_id}/notes{format}",
+   "operationId": "post_administration_id_documents_purchase_invoices_purchase_invoice_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/purchase_invoices/{purchase_invoice_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_documents_purchase_invoices_purchase_invoice_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/purchase_invoices/synchronization{format}",
+   "operationId": "get_administration_id_documents_purchase_invoices_synchronization",
+   "summary": "List ids and versions of purchase invoices",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/purchase_invoices/synchronization{format}",
+   "operationId": "post_administration_id_documents_purchase_invoices_synchronization",
+   "summary": "Fetch purchase invoices with given ids",
+   "tag": "Documents: Purchase invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/receipts{format}",
+   "operationId": "get_administration_id_documents_receipts",
+   "summary": "List receipts",
+   "tag": "Documents: Receipts",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/receipts{format}",
+   "operationId": "post_administration_id_documents_receipts",
+   "summary": "Create a new receipt",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/receipts/{id}{format}",
+   "operationId": "get_administration_id_documents_receipts_id",
+   "summary": "Get a receipt",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/receipts/{id}{format}",
+   "operationId": "delete_administration_id_documents_receipts_id",
+   "summary": "Delete a receipts",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/documents/receipts/{id}{format}",
+   "operationId": "patch_administration_id_documents_receipts_id",
+   "summary": "Update a receipt",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/receipts/{id}/attachments{format}",
+   "operationId": "post_administration_id_documents_receipts_id_attachments",
+   "summary": "Add attachment to receipt",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/receipts/{id}/attachments/{attachment_id}{format}",
+   "operationId": "delete_administration_id_documents_receipts_id_attachments_attachment_id",
+   "summary": "Delete an attachment",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/receipts/{id}/attachments/{attachment_id}/download{format}",
+   "operationId": "get_administration_id_documents_receipts_id_attachments_attachment_id_download",
+   "summary": "Download attachment",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/receipts/{id}/payments{format}",
+   "operationId": "post_administration_id_documents_receipts_id_payments",
+   "summary": "Create a payment",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/receipts/{id}/payments/{payment_id}{format}",
+   "operationId": "delete_administration_id_documents_receipts_id_payments_payment_id",
+   "summary": "Delete a payment",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/documents/receipts/{id}/register_payment{format}",
+   "operationId": "patch_administration_id_documents_receipts_id_register_payment",
+   "summary": "Register a payment for a receipt",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/receipts/{receipt_id}/notes{format}",
+   "operationId": "post_administration_id_documents_receipts_receipt_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/receipts/{receipt_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_documents_receipts_receipt_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/receipts/synchronization{format}",
+   "operationId": "get_administration_id_documents_receipts_synchronization",
+   "summary": "List ids and versions of receipts",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/receipts/synchronization{format}",
+   "operationId": "post_administration_id_documents_receipts_synchronization",
+   "summary": "Fetch receipts with given ids",
+   "tag": "Documents: Receipts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/typeless_documents{format}",
+   "operationId": "get_administration_id_documents_typeless_documents",
+   "summary": "Get typeless documents",
+   "tag": "Documents: Typeless documents",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/typeless_documents{format}",
+   "operationId": "post_administration_id_documents_typeless_documents",
+   "summary": "Create a new typeless document",
+   "tag": "Documents: Typeless documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/typeless_documents/{id}{format}",
+   "operationId": "get_administration_id_documents_typeless_documents_id",
+   "summary": "Get a typeless document",
+   "tag": "Documents: Typeless documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/typeless_documents/{id}{format}",
+   "operationId": "delete_administration_id_documents_typeless_documents_id",
+   "summary": "Delete a typeless document",
+   "tag": "Documents: Typeless documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/typeless_documents/{id}/attachments{format}",
+   "operationId": "post_administration_id_documents_typeless_documents_id_attachments",
+   "summary": "Add attachment to typeless document",
+   "tag": "Documents: Typeless documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/documents/typeless_documents/{id}/attachments/{attachment_id}{format}",
+   "operationId": "delete_administration_id_documents_typeless_documents_id_attachments_attachment_id",
+   "summary": "Delete an attachment",
+   "tag": "Documents: Typeless documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/typeless_documents/{id}/attachments/{attachment_id}/download{format}",
+   "operationId": "get_administration_id_documents_typeless_documents_id_attachments_attachment_id_download",
+   "summary": "Download attachment",
+   "tag": "Documents: Typeless documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/documents/typeless_documents/synchronization{format}",
+   "operationId": "get_administration_id_documents_typeless_documents_synchronization",
+   "summary": "List ids and versions of typeless documents",
+   "tag": "Documents: Typeless documents",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/documents/typeless_documents/synchronization{format}",
+   "operationId": "post_administration_id_documents_typeless_documents_synchronization",
+   "summary": "Fetch typeless documents with given ids",
+   "tag": "Documents: Typeless documents",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/downloads{format}",
+   "operationId": "get_administration_id_downloads",
+   "summary": "List all downloads",
+   "tag": "Downloads",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/downloads/{id}/download{format}",
+   "operationId": "post_administration_id_downloads_id_download",
+   "summary": "Download a file",
+   "tag": "Downloads",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/estimates{format}",
+   "operationId": "get_administration_id_estimates",
+   "summary": "List all estimates",
+   "tag": "Estimates",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/estimates{format}",
+   "operationId": "post_administration_id_estimates",
+   "summary": "Creates a new estimate",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/estimates/{estimate_id}/attachments/{id}{format}",
+   "operationId": "delete_administration_id_estimates_estimate_id_attachments_id",
+   "summary": "Delete an attachment",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/estimates/{estimate_id}/attachments/{id}/download{format}",
+   "operationId": "get_administration_id_estimates_estimate_id_attachments_id_download",
+   "summary": "Download attachment",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/estimates/{estimate_id}/notes{format}",
+   "operationId": "post_administration_id_estimates_estimate_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/estimates/{estimate_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_estimates_estimate_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/estimates/{id}{format}",
+   "operationId": "get_administration_id_estimates_id",
+   "summary": "Get an estimate by id",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/estimates/{id}{format}",
+   "operationId": "patch_administration_id_estimates_id",
+   "summary": "Updates an estimate",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/estimates/{id}{format}",
+   "operationId": "delete_administration_id_estimates_id",
+   "summary": "Deletes an estimate",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/estimates/{id}/attachments{format}",
+   "operationId": "post_administration_id_estimates_id_attachments",
+   "summary": "Add attachment to estimate",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/estimates/{id}/bill_estimate{format}",
+   "operationId": "patch_administration_id_estimates_id_bill_estimate",
+   "summary": "Bills an estimate",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/estimates/{id}/change_state{format}",
+   "operationId": "patch_administration_id_estimates_id_change_state",
+   "summary": "Changes the state of an estimate",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/estimates/{id}/download_pdf{format}",
+   "operationId": "get_administration_id_estimates_id_download_pdf",
+   "summary": "Download estimate PDF by id",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/estimates/{id}/send_estimate{format}",
+   "operationId": "patch_administration_id_estimates_id_send_estimate",
+   "summary": "Sends an estimate",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/estimates/find_by_estimate_id/{estimate_id}{format}",
+   "operationId": "get_administration_id_estimates_find_by_estimate_id_estimate_id",
+   "summary": "Get an estimate by estimate_id",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/estimates/synchronization{format}",
+   "operationId": "get_administration_id_estimates_synchronization",
+   "summary": "List all ids and versions",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/estimates/synchronization{format}",
+   "operationId": "post_administration_id_estimates_synchronization",
+   "summary": "Fetch estimates with given ids",
+   "tag": "Estimates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/external_sales_invoices{format}",
+   "operationId": "get_administration_id_external_sales_invoices",
+   "summary": "List all external invoices",
+   "tag": "External sales invoices",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/external_sales_invoices{format}",
+   "operationId": "post_administration_id_external_sales_invoices",
+   "summary": "Create an external sales invoice",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/external_sales_invoices/{external_sales_invoice_id}/attachments/{id}{format}",
+   "operationId": "delete_administration_id_external_sales_invoices_external_sales_invoice_id_attachments_id",
+   "summary": "Delete an attachment",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/external_sales_invoices/{external_sales_invoice_id}/attachments/{id}/download{format}",
+   "operationId": "get_administration_id_external_sales_invoices_external_sales_invoice_id_attachments_id_download",
+   "summary": "Download attachment",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/external_sales_invoices/{external_sales_invoice_id}/notes{format}",
+   "operationId": "post_administration_id_external_sales_invoices_external_sales_invoice_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/external_sales_invoices/{external_sales_invoice_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_external_sales_invoices_external_sales_invoice_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/external_sales_invoices/{external_sales_invoice_id}/payments{format}",
+   "operationId": "post_administration_id_external_sales_invoices_external_sales_invoice_id_payments",
+   "summary": "Create a payment",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/external_sales_invoices/{external_sales_invoice_id}/payments/{id}{format}",
+   "operationId": "delete_administration_id_external_sales_invoices_external_sales_invoice_id_payments_id",
+   "summary": "Delete a payment",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/external_sales_invoices/{id}{format}",
+   "operationId": "get_administration_id_external_sales_invoices_id",
+   "summary": "Get an external sales invoice by id",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/external_sales_invoices/{id}{format}",
+   "operationId": "patch_administration_id_external_sales_invoices_id",
+   "summary": "Update an external sales invoice",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/external_sales_invoices/{id}{format}",
+   "operationId": "delete_administration_id_external_sales_invoices_id",
+   "summary": "Delete an external sales invoice",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/external_sales_invoices/{id}/attachment{format}",
+   "operationId": "post_administration_id_external_sales_invoices_id_attachment",
+   "summary": "Add attachment to external sales invoice",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/external_sales_invoices/{id}/mark_as_dubious{format}",
+   "operationId": "patch_administration_id_external_sales_invoices_id_mark_as_dubious",
+   "summary": "Mark as dubious",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/external_sales_invoices/{id}/mark_as_uncollectible{format}",
+   "operationId": "patch_administration_id_external_sales_invoices_id_mark_as_uncollectible",
+   "summary": "Mark as uncollectible",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/external_sales_invoices/attachment{format}",
+   "operationId": "post_administration_id_external_sales_invoices_attachment",
+   "summary": "Create external sales invoice from attachment",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/external_sales_invoices/synchronization{format}",
+   "operationId": "get_administration_id_external_sales_invoices_synchronization",
+   "summary": "List all ids and versions",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/external_sales_invoices/synchronization{format}",
+   "operationId": "post_administration_id_external_sales_invoices_synchronization",
+   "summary": "Fetch external sales invoices with given ids",
+   "tag": "External sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/financial_accounts{format}",
+   "operationId": "get_administration_id_financial_accounts",
+   "summary": "Retrieve all available financial accounts for the administration",
+   "tag": "Financial accounts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/financial_mutations{format}",
+   "operationId": "get_administration_id_financial_mutations",
+   "summary": "List all financial mutations",
+   "tag": "Financial mutations",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/financial_mutations/{id}{format}",
+   "operationId": "get_administration_id_financial_mutations_id",
+   "summary": "Get a financial mutation by id",
+   "tag": "Financial mutations",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/financial_mutations/{id}/link_booking{format}",
+   "operationId": "patch_administration_id_financial_mutations_id_link_booking",
+   "summary": "Links a financial mutation to a booking",
+   "tag": "Financial mutations",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/financial_mutations/{id}/unlink_booking{format}",
+   "operationId": "delete_administration_id_financial_mutations_id_unlink_booking",
+   "summary": "Unlinks a booking from a financial mutation",
+   "tag": "Financial mutations",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/financial_mutations/synchronization{format}",
+   "operationId": "get_administration_id_financial_mutations_synchronization",
+   "summary": "List all ids and versions",
+   "tag": "Financial mutations",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/financial_mutations/synchronization{format}",
+   "operationId": "post_administration_id_financial_mutations_synchronization",
+   "summary": "Fetch financial mutations with given ids",
+   "tag": "Financial mutations",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/financial_statements{format}",
+   "operationId": "post_administration_id_financial_statements",
+   "summary": "Create a new financial statement",
+   "tag": "Financial statements",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/financial_statements/{id}{format}",
+   "operationId": "delete_administration_id_financial_statements_id",
+   "summary": "Delete a financial statement",
+   "tag": "Financial statements",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/financial_statements/{id}{format}",
+   "operationId": "patch_administration_id_financial_statements_id",
+   "summary": "Update a financial statement",
+   "tag": "Financial statements",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/identities{format}",
+   "operationId": "get_administration_id_identities",
+   "summary": "Retrieve identities",
+   "tag": "Identities",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/identities{format}",
+   "operationId": "post_administration_id_identities",
+   "summary": "Creates an identity",
+   "tag": "Identities",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/identities/{id}{format}",
+   "operationId": "get_administration_id_identities_id",
+   "summary": "Retrieve identity by given id",
+   "tag": "Identities",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/identities/{id}{format}",
+   "operationId": "patch_administration_id_identities_id",
+   "summary": "Updates an identity",
+   "tag": "Identities",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/identities/{id}{format}",
+   "operationId": "delete_administration_id_identities_id",
+   "summary": "Deletes an identity",
+   "tag": "Identities",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/identities/default{format}",
+   "operationId": "get_administration_id_identities_default",
+   "summary": "Retrieve the default identity",
+   "tag": "Identities",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/identities/default{format}",
+   "operationId": "patch_administration_id_identities_default",
+   "summary": "Updates the default identity",
+   "tag": "Identities",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/ledger_accounts{format}",
+   "operationId": "get_administration_id_ledger_accounts",
+   "summary": "List all ledger accounts of an administration",
+   "tag": "Ledger accounts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/ledger_accounts{format}",
+   "operationId": "post_administration_id_ledger_accounts",
+   "summary": "Creates a new ledger account",
+   "tag": "Ledger accounts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/ledger_accounts/{id}{format}",
+   "operationId": "get_administration_id_ledger_accounts_id",
+   "summary": "Returns information about a ledger account",
+   "tag": "Ledger accounts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/ledger_accounts/{id}{format}",
+   "operationId": "patch_administration_id_ledger_accounts_id",
+   "summary": "Updates a ledger account",
+   "tag": "Ledger accounts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/ledger_accounts/{id}{format}",
+   "operationId": "delete_administration_id_ledger_accounts_id",
+   "summary": "Deletes a ledger account",
+   "tag": "Ledger accounts",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/payments/{id}{format}",
+   "operationId": "get_administration_id_payments_id",
+   "summary": "Returns information about a payment",
+   "tag": "Payments",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/products{format}",
+   "operationId": "get_administration_id_products",
+   "summary": "List all products of an administration",
+   "tag": "Products",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/products{format}",
+   "operationId": "post_administration_id_products",
+   "summary": "Creates a new product",
+   "tag": "Products",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/products/{id}{format}",
+   "operationId": "get_administration_id_products_id",
+   "summary": "Returns information about a product",
+   "tag": "Products",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/products/{id}{format}",
+   "operationId": "patch_administration_id_products_id",
+   "summary": "Updates a product",
+   "tag": "Products",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/products/{id}{format}",
+   "operationId": "delete_administration_id_products_id",
+   "summary": "Deletes a product",
+   "tag": "Products",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/products/{id}/sales_link{format}",
+   "operationId": "post_administration_id_products_id_sales_link",
+   "summary": "Create online sales link",
+   "tag": "Products",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/products/identifier/{identifier}{format}",
+   "operationId": "get_administration_id_products_identifier_identifier",
+   "summary": "Returns information about a product based on the identifier",
+   "tag": "Products",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/projects{format}",
+   "operationId": "get_administration_id_projects",
+   "summary": "List all projects of an administration",
+   "tag": "Projects",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/projects{format}",
+   "operationId": "post_administration_id_projects",
+   "summary": "Creates a new project",
+   "tag": "Projects",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/projects/{id}{format}",
+   "operationId": "get_administration_id_projects_id",
+   "summary": "Returns information about a project",
+   "tag": "Projects",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/projects/{id}{format}",
+   "operationId": "patch_administration_id_projects_id",
+   "summary": "Updates a project",
+   "tag": "Projects",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/projects/{id}{format}",
+   "operationId": "delete_administration_id_projects_id",
+   "summary": "Deletes a project",
+   "tag": "Projects",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/purchase_transactions{format}",
+   "operationId": "get_administration_id_purchase_transactions",
+   "summary": "List all purchase transactions",
+   "tag": "Purchase transactions",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/purchase_transactions/{id}{format}",
+   "operationId": "get_administration_id_purchase_transactions_id",
+   "summary": "Get a purchase transaction by id",
+   "tag": "Purchase transactions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/purchase_transactions/{id}{format}",
+   "operationId": "delete_administration_id_purchase_transactions_id",
+   "summary": "Delete a purchase transaction",
+   "tag": "Purchase transactions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/purchase_transactions/{id}/delete{format}",
+   "operationId": "delete_administration_id_purchase_transactions_id_delete",
+   "summary": "Delete a purchase transaction",
+   "tag": "Purchase transactions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/recurring_sales_invoices{format}",
+   "operationId": "get_administration_id_recurring_sales_invoices",
+   "summary": "List all recurring sales invoices",
+   "tag": "Recurring sales invoices",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/recurring_sales_invoices{format}",
+   "operationId": "post_administration_id_recurring_sales_invoices",
+   "summary": "Creates a new recurring sales invoice",
+   "tag": "Recurring sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/recurring_sales_invoices/{id}{format}",
+   "operationId": "get_administration_id_recurring_sales_invoices_id",
+   "summary": "Get a recurring sales invoice by id",
+   "tag": "Recurring sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/recurring_sales_invoices/{id}{format}",
+   "operationId": "patch_administration_id_recurring_sales_invoices_id",
+   "summary": "Updates a recurring sales invoice",
+   "tag": "Recurring sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/recurring_sales_invoices/{id}{format}",
+   "operationId": "delete_administration_id_recurring_sales_invoices_id",
+   "summary": "Destroy or deactivate a recurring sales invoice",
+   "tag": "Recurring sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/recurring_sales_invoices/{recurring_sales_invoice_id}/notes{format}",
+   "operationId": "post_administration_id_recurring_sales_invoices_recurring_sales_invoice_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "Recurring sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/recurring_sales_invoices/{recurring_sales_invoice_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_recurring_sales_invoices_recurring_sales_invoice_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "Recurring sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/recurring_sales_invoices/synchronization{format}",
+   "operationId": "get_administration_id_recurring_sales_invoices_synchronization",
+   "summary": "List all IDs and versions",
+   "tag": "Recurring sales invoices",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/recurring_sales_invoices/synchronization{format}",
+   "operationId": "post_administration_id_recurring_sales_invoices_synchronization",
+   "summary": "Fetch recurring sales invoices with given IDs",
+   "tag": "Recurring sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/assets{format}",
+   "operationId": "get_administration_id_reports_assets",
+   "summary": "Assets report",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/balance_sheet{format}",
+   "operationId": "get_administration_id_reports_balance_sheet",
+   "summary": "Balance sheet report",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/cash_flow{format}",
+   "operationId": "get_administration_id_reports_cash_flow",
+   "summary": "Cash flow report",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/creditors_aging{format}",
+   "operationId": "get_administration_id_reports_creditors_aging",
+   "summary": "Creditors aging report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/creditors{format}",
+   "operationId": "get_administration_id_reports_creditors",
+   "summary": "Creditors report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/debtors_aging{format}",
+   "operationId": "get_administration_id_reports_debtors_aging",
+   "summary": "Debtors aging report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/debtors{format}",
+   "operationId": "get_administration_id_reports_debtors",
+   "summary": "Debtors report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/expenses_by_contact{format}",
+   "operationId": "get_administration_id_reports_expenses_by_contact",
+   "summary": "Expenses by contact report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/expenses_by_project{format}",
+   "operationId": "get_administration_id_reports_expenses_by_project",
+   "summary": "Expenses by project report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/reports/export/auditfile{format}",
+   "operationId": "post_administration_id_reports_export_auditfile",
+   "summary": "Export auditfile",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/reports/export/brugstaat{format}",
+   "operationId": "post_administration_id_reports_export_brugstaat",
+   "summary": "Export brugstaat",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/reports/export/ledger_accounts{format}",
+   "operationId": "post_administration_id_reports_export_ledger_accounts",
+   "summary": "Export ledger accounts",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/general_ledger{format}",
+   "operationId": "get_administration_id_reports_general_ledger",
+   "summary": "General ledger report",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/journal_entries{format}",
+   "operationId": "get_administration_id_reports_journal_entries",
+   "summary": "Journal entries report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/ledger_accounts/{ledger_account_id}{format}",
+   "operationId": "get_administration_id_reports_ledger_accounts_ledger_account_id",
+   "summary": "Ledger account report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/profit_loss{format}",
+   "operationId": "get_administration_id_reports_profit_loss",
+   "summary": "Profit loss report",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/revenue_by_contact{format}",
+   "operationId": "get_administration_id_reports_revenue_by_contact",
+   "summary": "Revenue by contact report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/revenue_by_project{format}",
+   "operationId": "get_administration_id_reports_revenue_by_project",
+   "summary": "Revenue by project report",
+   "tag": "Reports",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/subscriptions{format}",
+   "operationId": "get_administration_id_reports_subscriptions",
+   "summary": "Subscriptions report",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/reports/tax{format}",
+   "operationId": "get_administration_id_reports_tax",
+   "summary": "Tax report",
+   "tag": "Reports",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/sales_invoices{format}",
+   "operationId": "get_administration_id_sales_invoices",
+   "summary": "List all invoices",
+   "tag": "Sales invoices",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/sales_invoices{format}",
+   "operationId": "post_administration_id_sales_invoices",
+   "summary": "Create a sales invoice",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/sales_invoices/{id}{format}",
+   "operationId": "get_administration_id_sales_invoices_id",
+   "summary": "Get an invoice by id",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/sales_invoices/{id}{format}",
+   "operationId": "patch_administration_id_sales_invoices_id",
+   "summary": "Update a sales invoice",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/sales_invoices/{id}{format}",
+   "operationId": "delete_administration_id_sales_invoices_id",
+   "summary": "Delete a sales invoice",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/sales_invoices/{id}/attachments{format}",
+   "operationId": "post_administration_id_sales_invoices_id_attachments",
+   "summary": "Add attachment to sales invoice",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/sales_invoices/{id}/download_packing_slip_pdf{format}",
+   "operationId": "get_administration_id_sales_invoices_id_download_packing_slip_pdf",
+   "summary": "Download sales invoice packing slip PDF by id",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/sales_invoices/{id}/download_pdf{format}",
+   "operationId": "get_administration_id_sales_invoices_id_download_pdf",
+   "summary": "Download sales invoice PDF by id",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/sales_invoices/{id}/download_ubl{format}",
+   "operationId": "get_administration_id_sales_invoices_id_download_ubl",
+   "summary": "Download sales invoice UBL by id",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/sales_invoices/{id}/duplicate_creditinvoice{format}",
+   "operationId": "patch_administration_id_sales_invoices_id_duplicate_creditinvoice",
+   "summary": "Duplicate to credit invoice",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/sales_invoices/{id}/mark_as_dubious{format}",
+   "operationId": "patch_administration_id_sales_invoices_id_mark_as_dubious",
+   "summary": "Mark as dubious",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/sales_invoices/{id}/mark_as_uncollectible{format}",
+   "operationId": "patch_administration_id_sales_invoices_id_mark_as_uncollectible",
+   "summary": "Mark as uncollectible",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/sales_invoices/{id}/pause{format}",
+   "operationId": "post_administration_id_sales_invoices_id_pause",
+   "summary": "Pause sales invoice",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/sales_invoices/{id}/register_payment_creditinvoice{format}",
+   "operationId": "patch_administration_id_sales_invoices_id_register_payment_creditinvoice",
+   "summary": "Register a payment for a creditinvoice",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/sales_invoices/{id}/register_payment{format}",
+   "operationId": "patch_administration_id_sales_invoices_id_register_payment",
+   "summary": "Register a payment",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/sales_invoices/{id}/resume{format}",
+   "operationId": "post_administration_id_sales_invoices_id_resume",
+   "summary": "Resume sales invoice",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/sales_invoices/{id}/send_invoice{format}",
+   "operationId": "patch_administration_id_sales_invoices_id_send_invoice",
+   "summary": "Sends an invoice",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/sales_invoices/{sales_invoice_id}/attachments/{id}{format}",
+   "operationId": "delete_administration_id_sales_invoices_sales_invoice_id_attachments_id",
+   "summary": "Delete an attachment",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/sales_invoices/{sales_invoice_id}/attachments/{id}/download{format}",
+   "operationId": "get_administration_id_sales_invoices_sales_invoice_id_attachments_id_download",
+   "summary": "Download attachment",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/sales_invoices/{sales_invoice_id}/notes{format}",
+   "operationId": "post_administration_id_sales_invoices_sales_invoice_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/sales_invoices/{sales_invoice_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_sales_invoices_sales_invoice_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/sales_invoices/{sales_invoice_id}/payments{format}",
+   "operationId": "post_administration_id_sales_invoices_sales_invoice_id_payments",
+   "summary": "Create a payment",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/sales_invoices/{sales_invoice_id}/payments/{id}{format}",
+   "operationId": "delete_administration_id_sales_invoices_sales_invoice_id_payments_id",
+   "summary": "Delete a payment",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/sales_invoices/find_by_invoice_id/{invoice_id}{format}",
+   "operationId": "get_administration_id_sales_invoices_find_by_invoice_id_invoice_id",
+   "summary": "Get an invoice by invoice_id",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/sales_invoices/find_by_reference/{reference}{format}",
+   "operationId": "get_administration_id_sales_invoices_find_by_reference_reference",
+   "summary": "Get an invoice by reference",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/sales_invoices/send_reminders{format}",
+   "operationId": "post_administration_id_sales_invoices_send_reminders",
+   "summary": "Sends a reminder",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/sales_invoices/synchronization{format}",
+   "operationId": "get_administration_id_sales_invoices_synchronization",
+   "summary": "List all ids and versions",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/sales_invoices/synchronization{format}",
+   "operationId": "post_administration_id_sales_invoices_synchronization",
+   "summary": "Fetch sales invoices with given ids",
+   "tag": "Sales invoices",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/sepa_credit_transfer{format}",
+   "operationId": "post_administration_id_sepa_credit_transfer",
+   "summary": "Upload a SEPA credit transfer file to create purchase transaction batches",
+   "tag": "Purchase transactions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/subscription_templates{format}",
+   "operationId": "get_administration_id_subscription_templates",
+   "summary": "List all subscription templates",
+   "tag": "Subscription templates",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/subscription_templates/{id}/checkout_identifier{format}",
+   "operationId": "get_administration_id_subscription_templates_id_checkout_identifier",
+   "summary": "Create online sales link [Deprecated]",
+   "tag": "Subscription templates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/subscription_templates/{id}/sales_link{format}",
+   "operationId": "post_administration_id_subscription_templates_id_sales_link",
+   "summary": "Create online sales link",
+   "tag": "Subscription templates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/subscriptions{format}",
+   "operationId": "get_administration_id_subscriptions",
+   "summary": "List all subscriptions",
+   "tag": "Subscriptions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/subscriptions{format}",
+   "operationId": "post_administration_id_subscriptions",
+   "summary": "Create a new subscription",
+   "tag": "Subscriptions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/subscriptions/{id}{format}",
+   "operationId": "get_administration_id_subscriptions_id",
+   "summary": "Get subscription",
+   "tag": "Subscriptions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/subscriptions/{id}{format}",
+   "operationId": "patch_administration_id_subscriptions_id",
+   "summary": "Update a subscription",
+   "tag": "Subscriptions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/subscriptions/{id}{format}",
+   "operationId": "delete_administration_id_subscriptions_id",
+   "summary": "Cancel a subscription",
+   "tag": "Subscriptions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/subscriptions/{id}/additional_charges{format}",
+   "operationId": "post_administration_id_subscriptions_id_additional_charges",
+   "summary": "Create an additional charge to be invoiced together with the subscription",
+   "tag": "Subscriptions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/subscriptions/{id}/additional_charges{format}",
+   "operationId": "get_administration_id_subscriptions_id_additional_charges",
+   "summary": "Get additional charges",
+   "tag": "Subscriptions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/subscriptions/{id}/create_and_schedule_one_off_sales_invoice{format}",
+   "operationId": "post_administration_id_subscriptions_id_create_and_schedule_one_off_sales_invoice",
+   "summary": "Create and schedule an invoice to be sent together with the subscription",
+   "tag": "Subscriptions",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/task_list_groups/{id}{format}",
+   "operationId": "get_administration_id_task_list_groups_id",
+   "summary": "Returns information about a task list group",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/task_list_groups/{id}{format}",
+   "operationId": "patch_administration_id_task_list_groups_id",
+   "summary": "Updates a task list group",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/task_list_groups/{id}{format}",
+   "operationId": "delete_administration_id_task_list_groups_id",
+   "summary": "Deletes a task list group",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/task_list_groups/{task_list_group_id}/tasks{format}",
+   "operationId": "post_administration_id_task_list_groups_task_list_group_id_tasks",
+   "summary": "Creates a new task in a group",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/task_list_tasks/{id}{format}",
+   "operationId": "get_administration_id_task_list_tasks_id",
+   "summary": "Returns information about a task",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/task_list_tasks/{id}{format}",
+   "operationId": "patch_administration_id_task_list_tasks_id",
+   "summary": "Updates a task",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/task_list_tasks/{id}{format}",
+   "operationId": "delete_administration_id_task_list_tasks_id",
+   "summary": "Deletes a task",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/task_list_tasks/{task_list_task_id}/assignment{format}",
+   "operationId": "post_administration_id_task_list_tasks_task_list_task_id_assignment",
+   "summary": "Assigns a user to a task",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/task_list_tasks/{task_list_task_id}/assignment{format}",
+   "operationId": "delete_administration_id_task_list_tasks_task_list_task_id_assignment",
+   "summary": "Unassigns the user from a task",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/task_list_tasks/{task_list_task_id}/completion{format}",
+   "operationId": "post_administration_id_task_list_tasks_task_list_task_id_completion",
+   "summary": "Completes a task",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/task_list_tasks/{task_list_task_id}/completion{format}",
+   "operationId": "delete_administration_id_task_list_tasks_task_list_task_id_completion",
+   "summary": "Reopens a task",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/task_list_tasks/{task_list_task_id}/notes{format}",
+   "operationId": "post_administration_id_task_list_tasks_task_list_task_id_notes",
+   "summary": "Creates a note on a task",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/task_list_templates{format}",
+   "operationId": "get_administration_id_task_list_templates",
+   "summary": "List all task list templates of an administration",
+   "tag": "Task list templates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/task_list_templates{format}",
+   "operationId": "post_administration_id_task_list_templates",
+   "summary": "Creates a new task list template",
+   "tag": "Task list templates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/task_list_templates/{id}{format}",
+   "operationId": "get_administration_id_task_list_templates_id",
+   "summary": "Returns information about a task list template",
+   "tag": "Task list templates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/task_list_templates/{id}{format}",
+   "operationId": "patch_administration_id_task_list_templates_id",
+   "summary": "Updates a task list template",
+   "tag": "Task list templates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/task_list_templates/{id}{format}",
+   "operationId": "delete_administration_id_task_list_templates_id",
+   "summary": "Deletes a task list template",
+   "tag": "Task list templates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/task_list_templates/{task_list_template_id}/groups{format}",
+   "operationId": "post_administration_id_task_list_templates_task_list_template_id_groups",
+   "summary": "Creates a new group in a task list template",
+   "tag": "Task list templates",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/task_list_templates/{task_list_template_id}/task_lists{format}",
+   "operationId": "post_administration_id_task_list_templates_task_list_template_id_task_lists",
+   "summary": "Creates a task list from a template",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/task_lists{format}",
+   "operationId": "get_administration_id_task_lists",
+   "summary": "List all task lists of an administration",
+   "tag": "Task lists",
+   "paginated": true,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/task_lists{format}",
+   "operationId": "post_administration_id_task_lists",
+   "summary": "Creates a new task list",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/task_lists/{id}{format}",
+   "operationId": "get_administration_id_task_lists_id",
+   "summary": "Returns information about a task list",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/task_lists/{id}{format}",
+   "operationId": "patch_administration_id_task_lists_id",
+   "summary": "Updates a task list",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/task_lists/{id}{format}",
+   "operationId": "delete_administration_id_task_lists_id",
+   "summary": "Deletes a task list",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/task_lists/{task_list_id}/groups{format}",
+   "operationId": "post_administration_id_task_lists_task_list_id_groups",
+   "summary": "Creates a new group in a task list",
+   "tag": "Task lists",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/tax_rates{format}",
+   "operationId": "get_administration_id_tax_rates",
+   "summary": "List all available tax rates for the administration",
+   "tag": "Tax rates",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/time_entries{format}",
+   "operationId": "get_administration_id_time_entries",
+   "summary": "List all time entries",
+   "tag": "Time entries",
+   "paginated": true,
+   "filterable": true
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/time_entries{format}",
+   "operationId": "post_administration_id_time_entries",
+   "summary": "Create a time entry",
+   "tag": "Time entries",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/time_entries/{id}{format}",
+   "operationId": "get_administration_id_time_entries_id",
+   "summary": "Get a time entry by id",
+   "tag": "Time entries",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/time_entries/{id}{format}",
+   "operationId": "patch_administration_id_time_entries_id",
+   "summary": "Update a time entry",
+   "tag": "Time entries",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/time_entries/{id}{format}",
+   "operationId": "delete_administration_id_time_entries_id",
+   "summary": "Delete a time entry",
+   "tag": "Time entries",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/time_entries/{id}/resume{format}",
+   "operationId": "patch_administration_id_time_entries_id_resume",
+   "summary": "Resume a stopped timer",
+   "tag": "Time entries",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/time_entries/{id}/stop{format}",
+   "operationId": "patch_administration_id_time_entries_id_stop",
+   "summary": "Stops an active time entry",
+   "tag": "Time entries",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/time_entries/{time_entry_id}/notes{format}",
+   "operationId": "post_administration_id_time_entries_time_entry_id_notes",
+   "summary": "Adds note to entity",
+   "tag": "Time entries",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/time_entries/{time_entry_id}/notes/{id}{format}",
+   "operationId": "delete_administration_id_time_entries_time_entry_id_notes_id",
+   "summary": "Destroys note from entity",
+   "tag": "Time entries",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/users{format}",
+   "operationId": "get_administration_id_users",
+   "summary": "List all users",
+   "tag": "Users",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/verifications{format}",
+   "operationId": "get_administration_id_verifications",
+   "summary": "Retrieve verifications",
+   "tag": "Verifications",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/webhooks{format}",
+   "operationId": "get_administration_id_webhooks",
+   "summary": "List all webhooks",
+   "tag": "Webhooks",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "POST",
+   "path": "/{administration_id}/webhooks{format}",
+   "operationId": "post_administration_id_webhooks",
+   "summary": "Create a webhook",
+   "tag": "Webhooks",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "DELETE",
+   "path": "/{administration_id}/webhooks/{id}{format}",
+   "operationId": "delete_administration_id_webhooks_id",
+   "summary": "Delete a webhook",
+   "tag": "Webhooks",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/webhooks/{id}/activate{format}",
+   "operationId": "patch_administration_id_webhooks_id_activate",
+   "summary": "Activate a webhook",
+   "tag": "Webhooks",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "PATCH",
+   "path": "/{administration_id}/webhooks/{id}/deactivate{format}",
+   "operationId": "patch_administration_id_webhooks_id_deactivate",
+   "summary": "Deactivate a webhook",
+   "tag": "Webhooks",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/workflows{format}",
+   "operationId": "get_administration_id_workflows",
+   "summary": "Retrieve available workflows",
+   "tag": "Workflows",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/{administration_id}/workflows/{id}{format}",
+   "operationId": "get_administration_id_workflows_id",
+   "summary": "Get a workflow by id",
+   "tag": "Workflows",
+   "paginated": false,
+   "filterable": false
+  },
+  {
+   "method": "GET",
+   "path": "/administrations{format}",
+   "operationId": "get_administrations",
+   "summary": "List all administrations",
+   "tag": "Administrations",
+   "paginated": false,
+   "filterable": false
+  }
+ ]
+}

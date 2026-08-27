@@ -1,0 +1,6 @@
+dist
+coverage
+node_modules
+spec/endpoints.json
+package-lock.json
+docs/tools.md

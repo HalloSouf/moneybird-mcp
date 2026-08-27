@@ -1,0 +1,77 @@
+{
+  "name": "moneybird-mcp",
+  "version": "0.0.0",
+  "description": "Model Context Protocol server for the Moneybird accounting API",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "moneybird",
+    "accounting",
+    "invoicing",
+    "bookkeeping",
+    "claude"
+  ],
+  "license": "MIT",
+  "author": "HalloSouf",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HalloSouf/moneybird-mcp.git"
+  },
+  "homepage": "https://github.com/HalloSouf/moneybird-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/HalloSouf/moneybird-mcp/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "moneybird-mcp": "dist/bin.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "spec/endpoints.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "docs:tools": "npm run build && node --experimental-strip-types scripts/generate-tool-docs.ts",
+    "changeset": "changeset",
+    "version": "changeset version && npm run docs:tools",
+    "spec:refresh": "node --experimental-strip-types scripts/refresh-spec.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^1.0.0",
+    "@changesets/cli": "^3.0.1",
+    "@modelcontextprotocol/client": "^2.0.0",
+    "@types/node": "^22.15.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "yaml": "^2.9.0"
+  }
+}
