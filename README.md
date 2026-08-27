@@ -307,17 +307,6 @@ Issues and pull requests are welcome at
 <https://github.com/HalloSouf/moneybird-mcp>. Please run `npm run typecheck`, `npm test` and
 `npm run format:check` before opening a pull request; CI runs the same checks on Node 20 and 22.
 
-Changes that affect users ship with a changeset, which becomes the changelog entry:
-
-```bash
-npm run changeset
-```
-
-Pick `patch` for fixes, `minor` for new tools or options, `major` for anything that breaks an
-existing setup. Refactors, tests and CI changes need none. Merging to `main` opens a pull request
-that collects the pending changesets into a version bump and a `CHANGELOG.md` entry. See
-[.changeset/README.md](.changeset/README.md).
-
 ## Licence
 
 MIT. See [LICENSE](LICENSE).

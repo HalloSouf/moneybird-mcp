@@ -1,6 +1,6 @@
 {
   "name": "moneybird-mcp",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Model Context Protocol server for the Moneybird accounting API",
   "keywords": [
     "mcp",
@@ -53,8 +53,6 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "docs:tools": "npm run build && node --experimental-strip-types scripts/generate-tool-docs.ts",
-    "changeset": "changeset",
-    "version": "changeset version && npm run docs:tools",
     "spec:refresh": "node --experimental-strip-types scripts/refresh-spec.ts",
     "prepublishOnly": "npm run build"
   },
@@ -64,8 +62,6 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^1.0.0",
-    "@changesets/cli": "^3.0.1",
     "@modelcontextprotocol/client": "^2.0.0",
     "@types/node": "^22.15.0",
     "@vitest/coverage-v8": "^3.2.4",
