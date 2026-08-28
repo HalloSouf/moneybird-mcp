@@ -118,6 +118,7 @@ Paths this mode adds, all outside the MCP endpoint:
 | `/.well-known/oauth-protected-resource`   | RFC 9728 metadata, named by the 401 on the endpoint   |
 | `/.well-known/oauth-authorization-server` | RFC 8414 metadata                                     |
 | `/register`                               | RFC 7591 Dynamic Client Registration                  |
+| a url as `client_id`                      | Client ID Metadata Document, fetched not registered   |
 | `/authorize`                              | Starts the flow, redirects to Moneybird               |
 | `/oauth/callback`                         | Where Moneybird returns; must match your application  |
 | `/oauth/select`                           | Records which administration the authorization is for |
@@ -142,6 +143,31 @@ Consequences to plan for:
   which administration the connection is for, and binds it to that credential. Authorizing again
   is how you change it. Tools can still address another administration explicitly with
   `administration_id`.
+
+#### Clients identified by a url
+
+A client may skip registration entirely by using a
+[Client ID Metadata Document](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-client-id-metadata-document):
+its `client_id` is an https url, and this server fetches that url to learn what the client is. The
+metadata advertises `client_id_metadata_document_supported`, which together with the `none` auth
+method is what makes a client prefer this over registering. Registration stays available as the
+fallback.
+
+It saves a row per connection, but the better reason to prefer it is that the identity is
+verifiable and stable: the same client is the same url everywhere, rather than a fresh opaque id
+per deployment.
+
+Fetching a url named by whoever started the authorization needs care, so this server follows the
+draft closely: https only, no redirects followed, the address must not be a special-use one (which
+is what keeps `169.254.169.254` and friends out of reach), at most 5 kB is read, and the document
+must contain a `client_id` equal to the url it came from. Successful documents are cached for as
+long as their own `Cache-Control` allows; failures are never cached.
+
+One matching rule departs from strict string comparison: a native client listens on a loopback
+port it cannot predict, so it declares `http://localhost/callback` and the port is ignored when
+matching. [RFC 8252 section 7.3](https://datatracker.ietf.org/doc/html/rfc8252#section-7.3)
+requires this. The exception is confined to loopback addresses; everywhere else the comparison is
+exact.
 
 ### Choosing between the modes
 
