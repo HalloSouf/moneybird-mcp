@@ -17,9 +17,12 @@ const STYLE = `
   }
   button:hover { border-color: #1a1a18; }
   .name { font-weight: 600; }
+  .secondary { margin-top: 1rem; }
+  .secondary button { text-align: center; color: #5c5c56; }
   .meta { color: #5c5c56; font-size: .875rem; }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .875rem; }
   @media (prefers-color-scheme: dark) {
+    .secondary button { color: #a3a39c; }
     body { background: #171715; color: #f2f2ef; }
     p, .meta { color: #a3a39c; }
     button { background: #201f1d; border-color: #35342f; }
@@ -63,11 +66,12 @@ export interface AdministrationChoice {
 }
 
 /**
- * Asks which administration this authorization is for.
+ * Asks which administration should be the default for this authorization.
  *
- * Moneybird's own consent screen grants the token everything the user can reach, so without this
- * step a client would have to name an administration on every single call. The choice is bound to
- * the credential, not to the client, and re-authorizing is how you change it.
+ * Moneybird's own consent screen grants the token everything the user can reach, so without a
+ * default a client would have to name an administration on every single call. It is only a
+ * default: a request that names an administration still reaches any of the others. Saying that
+ * plainly matters, because a picker with one button per administration reads as a lock.
  */
 export function administrationPage(
   administrations: readonly AdministrationChoice[],
@@ -91,10 +95,15 @@ export function administrationPage(
     .join('\n');
 
   return page(
-    'Choose an administration',
-    `<h1>Choose an administration</h1>
-     <p>This connection will act on the administration you pick. Authorize again to change it.</p>
-     <ul>${items}</ul>`,
+    'Choose a default administration',
+    `<h1>Choose a default administration</h1>
+     <p>Used when a request does not name an administration. This connection reaches all of them
+        either way — ask for one by name and that one is used.</p>
+     <ul>${items}</ul>
+     <form method="post" action="${escapeHtml(action)}" class="secondary">
+       <input type="hidden" name="skip" value="1">
+       <button type="submit">No default — name one on every request</button>
+     </form>`,
   );
 }
 

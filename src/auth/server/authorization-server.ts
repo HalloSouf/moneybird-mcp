@@ -529,6 +529,11 @@ export class AuthorizationServer {
     }
 
     const form = await request.formData();
+
+    // Declining is a real answer: with several administrations in play, a default is a nuisance
+    // as often as a convenience.
+    if (form.get('skip') === '1') return this.finish(pending.id);
+
     const administrationId = form.get('administration_id');
     if (typeof administrationId !== 'string' || administrationId === '') {
       return htmlResponse(errorPage('Invalid choice', 'No administration was submitted.'), 400);

@@ -500,6 +500,34 @@ describe('choosing an administration', () => {
     expect([...store.credentials.values()][0]?.administrationId).toBe('2');
   });
 
+  it('lets the user decline a default and still finish the authorization', async () => {
+    const { server, store } = build({ administrations: two });
+    const clientId = await registerClient(server);
+    const { cookie } = await authorizeUntilCode(server, clientId);
+
+    const response = await handled(
+      server,
+      new Request(`${ISSUER}/oauth/select`, {
+        method: 'POST',
+        headers: { cookie, 'content-type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ skip: '1' }),
+      }),
+    );
+
+    expect(response.status).toBe(302);
+    expect(new URL(response.headers.get('location') ?? '').searchParams.get('code')).toBeTruthy();
+    expect([...store.credentials.values()][0]?.administrationId).toBeUndefined();
+  });
+
+  it('says the choice is a default rather than a restriction', async () => {
+    const { server } = build({ administrations: two });
+    const clientId = await registerClient(server);
+    const { callback } = await authorizeUntilCode(server, clientId);
+
+    const html = await callback.text();
+    expect(html).toContain('reaches all of them');
+  });
+
   it('refuses an administration the credential cannot reach', async () => {
     const { server, store } = build({ administrations: two });
     const clientId = await registerClient(server);

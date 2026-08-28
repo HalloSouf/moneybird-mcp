@@ -41,7 +41,9 @@ function instructionsFor(config: ServerConfig): string {
     '',
     `Enabled toolsets: ${config.toolsets.join(', ')}. Access: ${mode}.`,
     config.administrationId
-      ? `Default administration: ${config.administrationId}.`
+      ? `Default administration: ${config.administrationId}. This is only a default: every ` +
+        'administration the credential can reach is still available, so pass administration_id ' +
+        'to act on another one, and call list_administrations to see them.'
       : 'No default administration is configured — call list_administrations first and pass administration_id.',
     '',
     'Amounts are decimal strings and follow the administration currency. Dates are ISO 8601.',
