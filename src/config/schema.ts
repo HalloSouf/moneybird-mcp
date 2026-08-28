@@ -59,6 +59,12 @@ export const ServerConfig = z.object({
       redirectUri: z.string().url().optional(),
     })
     .optional(),
+  /** Public origin the OAuth flow advertises itself on, e.g. `https://mcp.example.com`. */
+  publicUrl: z.string().url().optional(),
+  /** Postgres holding the authorization server's state. Required by the `oauth` HTTP mode. */
+  databaseUrl: z.string().min(1).optional(),
+  /** 32 bytes of hex encrypting Moneybird tokens at rest. Required by the `oauth` HTTP mode. */
+  tokenEncryptionKey: z.string().min(1).optional(),
   requestTimeoutMs: z.number().int().positive(),
   maxRetries: z.number().int().min(0),
 });
@@ -180,6 +186,13 @@ export function configFromEnv(env: NodeJS.ProcessEnv = process.env): ServerConfi
               : {}),
           },
         }
+      : {}),
+    ...(env['MONEYBIRD_PUBLIC_URL']
+      ? { publicUrl: env['MONEYBIRD_PUBLIC_URL'].replace(/\/+$/, '') }
+      : {}),
+    ...(env['MONEYBIRD_DATABASE_URL'] ? { databaseUrl: env['MONEYBIRD_DATABASE_URL'] } : {}),
+    ...(env['MONEYBIRD_TOKEN_ENCRYPTION_KEY']
+      ? { tokenEncryptionKey: env['MONEYBIRD_TOKEN_ENCRYPTION_KEY'] }
       : {}),
     requestTimeoutMs: parseInteger(env['MONEYBIRD_REQUEST_TIMEOUT_MS'], 30_000),
     maxRetries: parseInteger(env['MONEYBIRD_MAX_RETRIES'], 3),

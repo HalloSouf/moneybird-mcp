@@ -10,6 +10,9 @@ import { listTools, status } from './cli/status.js';
 import { out } from './cli/prompt.js';
 import { serveStdio } from './server/stdio.js';
 import { serveHttp, type HttpAuthMode } from './server/http.js';
+import { AuthorizationServer } from './auth/server/authorization-server.js';
+import { PostgresAuthorizationStore } from './db/postgres.js';
+import { migrate } from './db/migrate.js';
 
 const USAGE = `moneybird-mcp — Model Context Protocol server for the Moneybird API
 
@@ -42,11 +45,14 @@ Environment
   MONEYBIRD_ALLOW_WRITE       "true" to enable write tools
   MONEYBIRD_ALLOW_DELETE      "true" to enable delete tools
   MONEYBIRD_TRANSPORT         "stdio" or "http"
-  MONEYBIRD_HTTP_AUTH         "none", "shared-token" or "passthrough"
+  MONEYBIRD_HTTP_AUTH         "none", "shared-token", "passthrough" or "oauth"
   MONEYBIRD_MCP_AUTH_TOKEN    Shared secret for --http with "shared-token"
   MONEYBIRD_TIME_ZONE         IANA time zone for date-sensitive endpoints
   MONEYBIRD_CLIENT_ID         OAuth application client id
   MONEYBIRD_CLIENT_SECRET     OAuth application client secret
+  MONEYBIRD_PUBLIC_URL        Public origin, required by MONEYBIRD_HTTP_AUTH=oauth
+  MONEYBIRD_DATABASE_URL      Postgres for the authorization server, required by "oauth"
+  MONEYBIRD_TOKEN_ENCRYPTION_KEY  32 bytes of hex encrypting Moneybird tokens at rest
 
 Full documentation: https://github.com/HalloSouf/moneybird-mcp
 `;
@@ -126,10 +132,72 @@ async function packageVersion(): Promise<string> {
 
 function httpAuthMode(env: NodeJS.ProcessEnv): HttpAuthMode {
   const explicit = env['MONEYBIRD_HTTP_AUTH']?.toLowerCase();
-  if (explicit === 'none' || explicit === 'shared-token' || explicit === 'passthrough') {
+  if (
+    explicit === 'none' ||
+    explicit === 'shared-token' ||
+    explicit === 'passthrough' ||
+    explicit === 'oauth'
+  ) {
     return explicit;
   }
   return env['MONEYBIRD_MCP_AUTH_TOKEN'] ? 'shared-token' : 'none';
+}
+
+/**
+ * Brings up the authorization server behind `MONEYBIRD_HTTP_AUTH=oauth`.
+ *
+ * Migrations run here rather than in a separate step: the schema is private to this server, and
+ * applying it before the port opens means a deploy can never answer requests against a schema one
+ * release behind. A failure aborts startup, which is the honest outcome.
+ */
+async function startAuthorizationServer(
+  config: ServerConfig,
+  endpoint: string,
+): Promise<{ server: AuthorizationServer; close: () => Promise<void> }> {
+  if (!config.publicUrl) {
+    throw new ConfigError(
+      'MONEYBIRD_HTTP_AUTH=oauth requires MONEYBIRD_PUBLIC_URL, the origin clients reach this ' +
+        'server on. It is what the OAuth metadata and the Moneybird redirect uri are built from.',
+    );
+  }
+  if (!config.databaseUrl) {
+    throw new ConfigError('MONEYBIRD_HTTP_AUTH=oauth requires MONEYBIRD_DATABASE_URL.');
+  }
+  if (!config.tokenEncryptionKey) {
+    throw new ConfigError(
+      'MONEYBIRD_HTTP_AUTH=oauth requires MONEYBIRD_TOKEN_ENCRYPTION_KEY. ' +
+        'Generate one with: openssl rand -hex 32',
+    );
+  }
+  if (!config.oauth) {
+    throw new ConfigError(
+      'MONEYBIRD_HTTP_AUTH=oauth requires MONEYBIRD_CLIENT_ID and MONEYBIRD_CLIENT_SECRET: the ' +
+        'server authorizes users through your own Moneybird application.',
+    );
+  }
+
+  const store = new PostgresAuthorizationStore({
+    connectionString: config.databaseUrl,
+    encryptionKey: config.tokenEncryptionKey,
+  });
+
+  const applied = await migrate({
+    pool: store.connectionPool,
+    onApplied: (name) => out.line(`applied migration ${name}`),
+  });
+  if (applied.length === 0) out.line('database schema up to date');
+
+  const server = new AuthorizationServer({
+    store,
+    issuer: config.publicUrl,
+    endpoint,
+    clientId: config.oauth.clientId,
+    clientSecret: config.oauth.clientSecret,
+    scopes: config.oauth.scopes,
+    baseUrl: config.baseUrl,
+  });
+
+  return { server, close: () => store.close() };
 }
 
 async function runServe(config: ServerConfig, flags: Flags, version: string): Promise<void> {
@@ -149,20 +217,28 @@ async function runServe(config: ServerConfig, flags: Flags, version: string): Pr
       );
     }
 
-    const endpoint = flags.values.get('endpoint');
+    const endpoint = flags.values.get('endpoint') ?? '/mcp';
+    const authorization =
+      authMode === 'oauth' ? await startAuthorizationServer(config, endpoint) : undefined;
+
     const handle = await serveHttp({
       config,
       authMode,
       ...(sharedToken ? { sharedToken } : {}),
-      ...(endpoint ? { endpoint } : {}),
+      ...(authorization ? { authorizationServer: authorization.server } : {}),
+      endpoint,
       version,
       onError: (error) => out.error(error.message),
     });
 
     out.ok(`moneybird-mcp ${version} listening on ${handle.url} (auth: ${authMode})`);
+    if (authorization) out.line(`authorization server on ${config.publicUrl ?? ''}`);
 
     const shutdown = () => {
-      void handle.close().then(() => process.exit(0));
+      void handle
+        .close()
+        .then(() => authorization?.close())
+        .then(() => process.exit(0));
     };
     process.on('SIGINT', shutdown);
     process.on('SIGTERM', shutdown);

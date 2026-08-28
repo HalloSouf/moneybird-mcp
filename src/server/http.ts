@@ -3,6 +3,10 @@ import { timingSafeEqual } from 'node:crypto';
 import { createMcpHandler, type McpRequestContext } from '@modelcontextprotocol/server';
 import { toNodeHandler } from '@modelcontextprotocol/node';
 import type { ServerConfig } from '../config/schema.js';
+import type {
+  AuthenticatedCaller,
+  AuthorizationServer,
+} from '../auth/server/authorization-server.js';
 import { createMoneybirdServer, type CreateServerOptions } from './create.js';
 
 /**
@@ -12,12 +16,16 @@ import { createMoneybirdServer, type CreateServerOptions } from './create.js';
  * - `shared-token` — a fixed secret guards the endpoint; the server uses its own Moneybird token.
  * - `passthrough`  — the caller's bearer token *is* the Moneybird token, so one deployment can
  *                    serve many administrations without ever storing a credential.
+ * - `oauth`        — the server runs an OAuth authorization server in front of Moneybird and
+ *                    resolves its own tokens to the credential a user authorized.
  */
-export type HttpAuthMode = 'none' | 'shared-token' | 'passthrough';
+export type HttpAuthMode = 'none' | 'shared-token' | 'passthrough' | 'oauth';
 
 export interface HttpServerOptions extends CreateServerOptions {
   authMode: HttpAuthMode;
   sharedToken?: string | undefined;
+  /** Required for `oauth`; serves the flow and resolves bearer tokens to Moneybird credentials. */
+  authorizationServer?: AuthorizationServer | undefined;
   /** Additional path prefix, e.g. `/mcp`. Requests outside it get a 404. */
   endpoint?: string;
   onError?: (error: Error) => void;
@@ -78,23 +86,50 @@ export function authenticate(
 /**
  * Serves the MCP server over Streamable HTTP.
  *
- * A fresh server instance is built per request, which keeps the deployment stateless and lets
- * `passthrough` mode bind each request to the credential its caller supplied.
+ * A fresh MCP server instance is built for each request, which keeps the deployment stateless and
+ * lets `passthrough` and `oauth` bind each request to the credential its caller is entitled to.
  */
 export async function serveHttp(
   options: HttpServerOptions & { config: ServerConfig },
 ): Promise<HttpHandle> {
   const endpoint = options.endpoint ?? '/mcp';
+  const authorizationServer = options.authorizationServer;
+
+  if (options.authMode === 'oauth' && !authorizationServer) {
+    throw new Error('The oauth auth mode requires an authorization server.');
+  }
+
+  // The guard resolves the caller once; the factory needs the same answer a moment later and the
+  // SDK hands it the very Request object that came in, so identity is enough to carry it across.
+  const resolved = new WeakMap<Request, AuthenticatedCaller>();
 
   const factory = async (context: McpRequestContext) => {
-    const perRequestToken =
-      options.authMode === 'passthrough' && context.requestInfo
-        ? bearerFrom(context.requestInfo)
-        : undefined;
+    let perRequest: Partial<ServerConfig> = {};
+
+    if (context.requestInfo) {
+      if (options.authMode === 'passthrough') {
+        const token = bearerFrom(context.requestInfo);
+        if (token) perRequest = { apiToken: token };
+      } else if (options.authMode === 'oauth' && authorizationServer) {
+        const caller =
+          resolved.get(context.requestInfo) ??
+          (await (async () => {
+            const presented = bearerFrom(context.requestInfo as Request);
+            return presented ? await authorizationServer.authenticateBearer(presented) : undefined;
+          })());
+
+        if (caller) {
+          perRequest = {
+            apiToken: caller.token,
+            ...(caller.administrationId ? { administrationId: caller.administrationId } : {}),
+          };
+        }
+      }
+    }
 
     const { server } = await createMoneybirdServer({
       ...options,
-      config: perRequestToken ? { ...options.config, apiToken: perRequestToken } : options.config,
+      config: { ...options.config, ...perRequest },
     });
     return server;
   };
@@ -112,8 +147,29 @@ export async function serveHttp(
           headers: { 'content-type': 'application/json' },
         });
       }
+
+      // Discovery, registration and the flow itself sit outside the MCP endpoint, so they are
+      // routed before the endpoint check rejects everything else.
+      if (authorizationServer) {
+        const handled = await authorizationServer.handle(request);
+        if (handled) return handled;
+      }
+
       if (url.pathname !== endpoint) {
         return new Response('Not found', { status: 404 });
+      }
+
+      if (options.authMode === 'oauth' && authorizationServer) {
+        const presented = bearerFrom(request);
+        if (!presented) {
+          return authorizationServer.unauthorized('Missing Authorization: Bearer <token> header.');
+        }
+        const caller = await authorizationServer.authenticateBearer(presented);
+        if (!caller) {
+          return authorizationServer.unauthorized('Unknown, expired or revoked token.');
+        }
+        resolved.set(request, caller);
+        return handler.fetch(request);
       }
 
       const auth = authenticate(request, options);
