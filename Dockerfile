@@ -23,6 +23,8 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY package.json ./
 COPY spec/endpoints.json ./spec/endpoints.json
+# Applied at startup by the oauth auth mode, so they ship with the image.
+COPY migrations ./migrations
 
 USER node
 EXPOSE 3000
