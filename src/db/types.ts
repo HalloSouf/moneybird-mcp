@@ -74,6 +74,8 @@ export interface ConsumedCode {
  */
 export interface AuthorizationStore {
   createClient(client: OAuthClient): Promise<void>;
+  /** Inserts or refreshes a client, for identities that are resolved rather than registered. */
+  upsertClient(client: OAuthClient): Promise<void>;
   findClient(clientId: string): Promise<OAuthClient | undefined>;
 
   createCredential(credential: MoneybirdCredential): Promise<void>;

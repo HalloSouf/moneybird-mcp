@@ -1,5 +1,10 @@
 import type { OAuthScope } from '../../config/schema.js';
-import type { AuthorizationStore } from '../../db/types.js';
+import type { AuthorizationStore, OAuthClient } from '../../db/types.js';
+import {
+  ClientMetadataError,
+  ClientMetadataFetcher,
+  isClientIdentifierUrl,
+} from './client-metadata.js';
 import { MoneybirdClient } from '../../moneybird/client.js';
 import { buildAuthorizeUrl, exchangeCode, OAuthError, refreshAccessToken } from '../oauth.js';
 import { hashToken, randomToken, verifyCodeChallenge } from './crypto.js';
@@ -27,6 +32,8 @@ export interface AuthorizationServerOptions {
   clientSecret: string;
   scopes: readonly OAuthScope[];
   baseUrl?: string | undefined;
+  /** Resolves url-shaped client ids; constructed by default. */
+  clientMetadata?: ClientMetadataFetcher;
   fetch?: typeof globalThis.fetch;
   now?: () => number;
 }
@@ -112,6 +119,34 @@ function isAllowedRedirectUri(value: string): boolean {
 }
 
 /**
+ * Whether a redirect uri satisfies one the client declared.
+ *
+ * Exact string comparison, with one exception RFC 8252 section 7.3 requires: a native client
+ * listens on an ephemeral loopback port it cannot know in advance, so it registers the host
+ * without a port and the port is ignored when matching. Everything else about the uri must still
+ * agree, and the exception is confined to loopback addresses.
+ */
+export function redirectUriMatches(registered: string, presented: string): boolean {
+  if (registered === presented) return true;
+
+  let left: URL;
+  let right: URL;
+  try {
+    left = new URL(registered);
+    right = new URL(presented);
+  } catch {
+    return false;
+  }
+
+  const loopback = ['127.0.0.1', '[::1]', '::1', 'localhost'];
+  if (left.protocol !== 'http:' || right.protocol !== 'http:') return false;
+  if (left.hostname !== right.hostname) return false;
+  if (!loopback.includes(left.hostname)) return false;
+
+  return left.pathname === right.pathname && left.search === right.search;
+}
+
+/**
  * An OAuth 2.1 authorization server that fronts Moneybird.
  *
  * Moneybird supports neither Dynamic Client Registration nor PKCE, so an MCP client cannot speak
@@ -126,6 +161,7 @@ export class AuthorizationServer {
   private readonly options: AuthorizationServerOptions;
   private readonly fetchImpl: typeof globalThis.fetch;
   private readonly now: () => number;
+  private readonly clientMetadata: ClientMetadataFetcher;
   /** In-flight upstream refreshes, so concurrent calls never burn a single-use refresh token. */
   private readonly refreshing = new Map<string, Promise<string>>();
 
@@ -134,6 +170,31 @@ export class AuthorizationServer {
     this.options = options;
     this.fetchImpl = options.fetch ?? globalThis.fetch;
     this.now = options.now ?? Date.now;
+    this.clientMetadata =
+      options.clientMetadata ?? new ClientMetadataFetcher({ fetch: this.fetchImpl, now: this.now });
+  }
+
+  /**
+   * Finds the client behind a `client_id`, by either mechanism.
+   *
+   * A url is resolved to its metadata document and recorded, so a client that never registers
+   * still becomes an ordinary row and everything downstream — codes, tokens, revocation — treats
+   * it the same. Anything else is a registered id.
+   */
+  private async resolveClient(clientId: string): Promise<OAuthClient | undefined> {
+    if (!isClientIdentifierUrl(clientId)) return this.store.findClient(clientId);
+
+    const document = await this.clientMetadata.resolve(clientId);
+    const client: OAuthClient = {
+      clientId: document.clientId,
+      clientName: document.clientName,
+      redirectUris: document.redirectUris,
+      grantTypes: ['authorization_code', 'refresh_token'],
+      responseTypes: ['code'],
+      tokenEndpointAuthMethod: 'none',
+    };
+    await this.store.upsertClient(client);
+    return client;
   }
 
   /** The 401 that starts discovery: it names the metadata document describing this server. */
@@ -278,14 +339,28 @@ export class AuthorizationServer {
       );
     }
 
-    const client = await this.store.findClient(clientId);
+    let client: OAuthClient | undefined;
+    try {
+      client = await this.resolveClient(clientId);
+    } catch (error) {
+      return htmlResponse(
+        errorPage(
+          'Could not identify the client',
+          error instanceof ClientMetadataError
+            ? error.message
+            : 'The client metadata document could not be read.',
+        ),
+        400,
+      );
+    }
+
     if (!client) {
       return htmlResponse(
         errorPage('Unknown client', 'This client is not registered with this server.'),
         400,
       );
     }
-    if (!client.redirectUris.includes(redirectUri)) {
+    if (!client.redirectUris.some((registered) => redirectUriMatches(registered, redirectUri))) {
       return htmlResponse(
         errorPage('Invalid redirect uri', 'This uri was not registered by this client.'),
         400,

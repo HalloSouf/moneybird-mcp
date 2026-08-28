@@ -25,6 +25,10 @@ export class MemoryAuthorizationStore implements AuthorizationStore {
     this.clients.set(client.clientId, client);
   }
 
+  async upsertClient(client: OAuthClient): Promise<void> {
+    this.clients.set(client.clientId, client);
+  }
+
   async findClient(clientId: string): Promise<OAuthClient | undefined> {
     return this.clients.get(clientId);
   }

@@ -163,6 +163,34 @@ export class PostgresAuthorizationStore implements AuthorizationStore {
     );
   }
 
+  /**
+   * Writes a client whose identity comes from a url rather than a registration.
+   *
+   * The document is the source of truth and can change between authorizations, so this refreshes
+   * what it declares instead of failing on the second visit.
+   */
+  async upsertClient(client: OAuthClient): Promise<void> {
+    await this.pool.query(
+      `INSERT INTO oauth_clients
+         (client_id, client_name, redirect_uris, grant_types, response_types, token_endpoint_auth_method)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       ON CONFLICT (client_id) DO UPDATE
+         SET client_name = EXCLUDED.client_name,
+             redirect_uris = EXCLUDED.redirect_uris,
+             grant_types = EXCLUDED.grant_types,
+             response_types = EXCLUDED.response_types,
+             token_endpoint_auth_method = EXCLUDED.token_endpoint_auth_method`,
+      [
+        client.clientId,
+        client.clientName ?? null,
+        [...client.redirectUris],
+        [...client.grantTypes],
+        [...client.responseTypes],
+        client.tokenEndpointAuthMethod,
+      ],
+    );
+  }
+
   async findClient(clientId: string): Promise<OAuthClient | undefined> {
     const result = await this.pool.query<ClientRow>(
       'SELECT * FROM oauth_clients WHERE client_id = $1',

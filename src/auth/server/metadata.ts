@@ -45,6 +45,9 @@ export function authorizationServerMetadata(options: MetadataOptions): Record<st
     token_endpoint_auth_methods_supported: ['none'],
     revocation_endpoint_auth_methods_supported: ['none'],
     code_challenge_methods_supported: ['S256'],
+    // Claude only picks this over registration when the flag and the `none` auth method are both
+    // present, so the two belong together.
+    client_id_metadata_document_supported: true,
     service_documentation: 'https://github.com/HalloSouf/moneybird-mcp',
   };
 }
