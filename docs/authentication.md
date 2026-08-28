@@ -29,7 +29,14 @@ Neither is zero configuration. Moneybird's OAuth implementation supports neither
 [PKCE](https://datatracker.ietf.org/doc/html/rfc7636), so a client cannot register itself on the
 fly and a public client cannot complete the code flow safely without a client secret. You therefore
 either create a personal API token by hand, or register your own OAuth application and hold its
-secret. This is a property of the Moneybird API; no MCP server can work around it.
+secret.
+
+Both gaps can be closed for the people connecting, but only by someone willing to run a server that
+holds the application secret. That is what the `oauth` HTTP mode does: it is an authorization server
+that supports registration and PKCE towards its clients, and a confidential client towards
+Moneybird. Users then connect with a redirect and never handle a token. See
+[hosting.md](hosting.md#oauth). Locally, where there is no such server, the choice below still
+stands.
 
 |          | Personal API token            | OAuth application                                       |
 | -------- | ----------------------------- | ------------------------------------------------------- |

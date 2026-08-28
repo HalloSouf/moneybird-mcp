@@ -86,6 +86,73 @@ Two consequences to plan for:
 
 Only run `passthrough` over TLS. The token is a bearer credential in a header.
 
+### `oauth`
+
+The server runs an OAuth 2.1 authorization server in front of Moneybird. A client discovers it,
+registers itself, and sends the user to Moneybird to authorize; what the client ends up holding is
+a token this server minted, which maps to a Moneybird credential only this server can read.
+
+```bash
+docker run --rm \
+  -p 3000:3000 \
+  -e MONEYBIRD_HTTP_AUTH=oauth \
+  -e MONEYBIRD_PUBLIC_URL=https://mcp.example.com \
+  -e MONEYBIRD_DATABASE_URL=postgres://user:pass@db:5432/mb_prod \
+  -e MONEYBIRD_TOKEN_ENCRYPTION_KEY="$(openssl rand -hex 32)" \
+  -e MONEYBIRD_CLIENT_ID=your-application-id \
+  -e MONEYBIRD_CLIENT_SECRET=your-application-secret \
+  -e MONEYBIRD_ALLOW_WRITE=true \
+  moneybird-mcp
+```
+
+Nobody pastes a token: connecting is a redirect to Moneybird and back. That is worth something on
+its own, but the reason it exists is that Moneybird supports neither Dynamic Client Registration
+nor PKCE, so a client cannot run this flow against Moneybird itself. This server can, because it
+is two things at once — the authorization server the client talks to, and a confidential client
+towards Moneybird holding the application secret.
+
+Paths this mode adds, all outside the MCP endpoint:
+
+| Path                                      | Purpose                                               |
+| ----------------------------------------- | ----------------------------------------------------- |
+| `/.well-known/oauth-protected-resource`   | RFC 9728 metadata, named by the 401 on the endpoint   |
+| `/.well-known/oauth-authorization-server` | RFC 8414 metadata                                     |
+| `/register`                               | RFC 7591 Dynamic Client Registration                  |
+| `/authorize`                              | Starts the flow, redirects to Moneybird               |
+| `/oauth/callback`                         | Where Moneybird returns; must match your application  |
+| `/oauth/select`                           | Records which administration the authorization is for |
+| `/token`, `/revoke`                       | Token issuance, rotation and revocation               |
+
+Consequences to plan for:
+
+- **The redirect uri must match exactly.** Register `MONEYBIRD_PUBLIC_URL` + `/oauth/callback`
+  with your Moneybird application. Moneybird compares it literally.
+- **Serve on an origin, not a subpath.** A proxy that rewrites every path onto `/mcp` — a common
+  way to host several MCP servers on one hostname — makes `/.well-known` and `/oauth/*`
+  unreachable, and discovery fails before it starts.
+- **Credentials now live on your host.** Unlike `passthrough`, this deployment stores Moneybird
+  tokens. They are encrypted with `MONEYBIRD_TOKEN_ENCRYPTION_KEY`, and the tokens this server
+  issues are stored only as SHA-256 hashes; losing the database without the key does not expose an
+  administration. Back up the key separately from the database, because losing it means every
+  authorization has to be repeated.
+- **Registration is open.** Any client that can reach `/register` can register. Authorizing still
+  requires a Moneybird account and consent, so an unknown client gets no further, but put the
+  endpoint behind a rate limit if the deployment is public.
+- **One administration per authorization.** After the Moneybird consent screen the server asks
+  which administration the connection is for, and binds it to that credential. Authorizing again
+  is how you change it. Tools can still address another administration explicitly with
+  `administration_id`.
+
+### Choosing between the modes
+
+|                                    | `shared-token`                  | `passthrough`                  | `oauth`                              |
+| ---------------------------------- | ------------------------------- | ------------------------------ | ------------------------------------ |
+| Who holds the Moneybird credential | the server, one for all callers | each caller                    | the server, one per user             |
+| What a caller supplies             | a shared secret                 | their Moneybird token          | nothing; they authorize in a browser |
+| State to operate                   | none                            | none                           | Postgres and an encryption key       |
+| Serves many administrations        | no                              | yes                            | yes                                  |
+| Revoking one user                  | rotate the secret for everyone  | that user's token in Moneybird | `/revoke`, or in Moneybird           |
+
 ## Reverse proxy
 
 Terminate TLS at the proxy and forward to the container over the private network:

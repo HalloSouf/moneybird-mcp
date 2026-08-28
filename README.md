@@ -88,27 +88,30 @@ Configuration comes from the environment; CLI flags override it.
 
 ### Environment variables
 
-| Variable                       | Default                                                          | Purpose                                                                               |
-| ------------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `MONEYBIRD_API_TOKEN`          | —                                                                | Token to use, bypassing the stored credentials entirely.                              |
-| `MONEYBIRD_ADMINISTRATION_ID`  | from stored credentials                                          | Administration used when a tool does not name one.                                    |
-| `MONEYBIRD_TOOLSETS`           | `core,invoicing,purchases,banking,time`                          | Toolsets to enable. Accepts `all`, `none`, or `-name` to drop one from the defaults.  |
-| `MONEYBIRD_ALLOW_WRITE`        | `false`                                                          | `true` enables tools that create or modify data.                                      |
-| `MONEYBIRD_ALLOW_DELETE`       | `false`                                                          | `true` enables tools that delete data. Has no effect without `MONEYBIRD_ALLOW_WRITE`. |
-| `MONEYBIRD_TRANSPORT`          | `stdio`                                                          | `stdio` or `http`.                                                                    |
-| `MONEYBIRD_HOST`               | `127.0.0.1`                                                      | Bind address for the HTTP transport.                                                  |
-| `PORT` / `MONEYBIRD_PORT`      | `3000`                                                           | Port for the HTTP transport. `PORT` wins if both are set.                             |
-| `MONEYBIRD_HTTP_AUTH`          | `shared-token` if `MONEYBIRD_MCP_AUTH_TOKEN` is set, else `none` | `none`, `shared-token` or `passthrough`.                                              |
-| `MONEYBIRD_MCP_AUTH_TOKEN`     | —                                                                | Shared secret callers must present in `shared-token` mode.                            |
-| `MONEYBIRD_CLIENT_ID`          | —                                                                | OAuth application client id. Must be set together with the secret.                    |
-| `MONEYBIRD_CLIENT_SECRET`      | —                                                                | OAuth application client secret.                                                      |
-| `MONEYBIRD_OAUTH_SCOPES`       | all six scopes                                                   | Comma-separated scopes to request during `login --oauth`.                             |
-| `MONEYBIRD_REDIRECT_URI`       | `http://127.0.0.1:51739/callback`                                | Redirect URI for the OAuth flow. Must match the one registered with your application. |
-| `MONEYBIRD_TIME_ZONE`          | —                                                                | IANA time zone sent with date-sensitive requests, e.g. `Europe/Amsterdam`.            |
-| `MONEYBIRD_BASE_URL`           | `https://moneybird.com/api/v2`                                   | API base URL. For testing against a stub.                                             |
-| `MONEYBIRD_REQUEST_TIMEOUT_MS` | `30000`                                                          | Per-request timeout.                                                                  |
-| `MONEYBIRD_MAX_RETRIES`        | `3`                                                              | Retries after the first attempt, for 429 and 5xx responses.                           |
-| `MONEYBIRD_MCP_CONFIG_DIR`     | `$XDG_CONFIG_HOME/moneybird-mcp`, else `~/.config/moneybird-mcp` | Directory holding `credentials.json`.                                                 |
+| Variable                         | Default                                                          | Purpose                                                                               |
+| -------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `MONEYBIRD_API_TOKEN`            | —                                                                | Token to use, bypassing the stored credentials entirely.                              |
+| `MONEYBIRD_ADMINISTRATION_ID`    | from stored credentials                                          | Administration used when a tool does not name one.                                    |
+| `MONEYBIRD_TOOLSETS`             | `core,invoicing,purchases,banking,time`                          | Toolsets to enable. Accepts `all`, `none`, or `-name` to drop one from the defaults.  |
+| `MONEYBIRD_ALLOW_WRITE`          | `false`                                                          | `true` enables tools that create or modify data.                                      |
+| `MONEYBIRD_ALLOW_DELETE`         | `false`                                                          | `true` enables tools that delete data. Has no effect without `MONEYBIRD_ALLOW_WRITE`. |
+| `MONEYBIRD_TRANSPORT`            | `stdio`                                                          | `stdio` or `http`.                                                                    |
+| `MONEYBIRD_HOST`                 | `127.0.0.1`                                                      | Bind address for the HTTP transport.                                                  |
+| `PORT` / `MONEYBIRD_PORT`        | `3000`                                                           | Port for the HTTP transport. `PORT` wins if both are set.                             |
+| `MONEYBIRD_HTTP_AUTH`            | `shared-token` if `MONEYBIRD_MCP_AUTH_TOKEN` is set, else `none` | `none`, `shared-token`, `passthrough` or `oauth`.                                     |
+| `MONEYBIRD_MCP_AUTH_TOKEN`       | —                                                                | Shared secret callers must present in `shared-token` mode.                            |
+| `MONEYBIRD_CLIENT_ID`            | —                                                                | OAuth application client id. Must be set together with the secret.                    |
+| `MONEYBIRD_CLIENT_SECRET`        | —                                                                | OAuth application client secret.                                                      |
+| `MONEYBIRD_PUBLIC_URL`           | —                                                                | Public origin the `oauth` mode advertises and builds its redirect uri from.           |
+| `MONEYBIRD_DATABASE_URL`         | —                                                                | Postgres holding the `oauth` mode's authorization state.                              |
+| `MONEYBIRD_TOKEN_ENCRYPTION_KEY` | —                                                                | 32 bytes of hex encrypting Moneybird tokens at rest. `openssl rand -hex 32`.          |
+| `MONEYBIRD_OAUTH_SCOPES`         | all six scopes                                                   | Comma-separated scopes to request during `login --oauth`.                             |
+| `MONEYBIRD_REDIRECT_URI`         | `http://127.0.0.1:51739/callback`                                | Redirect URI for the OAuth flow. Must match the one registered with your application. |
+| `MONEYBIRD_TIME_ZONE`            | —                                                                | IANA time zone sent with date-sensitive requests, e.g. `Europe/Amsterdam`.            |
+| `MONEYBIRD_BASE_URL`             | `https://moneybird.com/api/v2`                                   | API base URL. For testing against a stub.                                             |
+| `MONEYBIRD_REQUEST_TIMEOUT_MS`   | `30000`                                                          | Per-request timeout.                                                                  |
+| `MONEYBIRD_MAX_RETRIES`          | `3`                                                              | Retries after the first attempt, for 429 and 5xx responses.                           |
+| `MONEYBIRD_MCP_CONFIG_DIR`       | `$XDG_CONFIG_HOME/moneybird-mcp`, else `~/.config/moneybird-mcp` | Directory holding `credentials.json`.                                                 |
 
 ### Commands
 
