@@ -21,8 +21,8 @@ describe('resolveToolsets', () => {
     expect(resolveToolsets('all')).toEqual([...TOOLSETS]);
   });
 
-  it('returns nothing selected as an error for "none"', () => {
-    expect(() => resolveToolsets('none')).toThrow(ConfigError);
+  it('enables no full toolset for "none"', () => {
+    expect(resolveToolsets('none')).toEqual([]);
   });
 
   it('subtracts a toolset from the defaults with a leading "-"', () => {

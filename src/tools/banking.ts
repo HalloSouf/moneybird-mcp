@@ -56,6 +56,7 @@ export const bankingTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'list_financial_mutations',
+    essential: true,
     title: 'List financial mutations',
     description:
       'List bank transactions. Without a filter Moneybird returns the current financial year only, so pass ' +
@@ -101,6 +102,7 @@ export const bankingTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'link_booking',
+    essential: true,
     title: 'Link booking to financial mutation',
     description:
       'Book a bank transaction against a record: an invoice, a purchase transaction or a ledger account. ' +

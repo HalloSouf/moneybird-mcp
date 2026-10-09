@@ -256,6 +256,7 @@ function paymentBody(args: {
 export const purchasesTools: readonly ToolDefinition[] = [
   defineTool({
     name: 'list_purchase_invoices',
+    essential: true,
     title: 'List purchase invoices',
     description:
       'List purchase invoices (bills received from suppliers), newest first. ' +
@@ -300,6 +301,7 @@ export const purchasesTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'create_purchase_invoice',
+    essential: true,
     title: 'Create purchase invoice',
     description:
       'Book a supplier invoice. Supply `contact_id` for the supplier, the supplier `reference` and `date`, ' +
@@ -435,6 +437,7 @@ export const purchasesTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'create_receipt',
+    essential: true,
     title: 'Create receipt',
     description:
       'Book a receipt. Pass `financial_account_id` to record it as already paid from that account.',

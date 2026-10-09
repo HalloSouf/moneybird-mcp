@@ -43,11 +43,8 @@ function accessLabel(tool: ToolDefinition): string {
 function section(toolset: Toolset, tools: readonly ToolDefinition[]): string {
   const lines = [`## ${toolset}`, '', TOOLSET_SUMMARY[toolset], ''];
 
-  const enabledByDefault = DEFAULT_TOOLSETS.includes(toolset);
   lines.push(
-    enabledByDefault
-      ? '_Enabled by default._'
-      : `_Off by default. Enable with \`--toolsets ${[...DEFAULT_TOOLSETS, toolset].join(',')}\` or \`--toolsets all\`._`,
+    `_Tools marked **on** are always registered. Enable the rest with \`--toolsets ${toolset}\` or \`--toolsets all\`._`,
     '',
   );
 
@@ -56,9 +53,11 @@ function section(toolset: Toolset, tools: readonly ToolDefinition[]): string {
     return lines.join('\n');
   }
 
-  lines.push('| Tool | Access | Description |', '| --- | --- | --- |');
+  lines.push('| Tool | Default | Access | Description |', '| --- | --- | --- | --- |');
   for (const tool of tools) {
-    lines.push(`| \`${tool.name}\` | ${accessLabel(tool)} | ${cell(tool.description)} |`);
+    lines.push(
+      `| \`${tool.name}\` | ${tool.essential ? '**on**' : 'off'} | ${accessLabel(tool)} | ${cell(tool.description)} |`,
+    );
   }
   lines.push('');
   return lines.join('\n');
@@ -93,7 +92,9 @@ function render(): string {
     'Tools outside those tiers are not registered at all, so a model cannot see or call them.',
     'Run `moneybird-mcp tools` to list what your current settings expose.',
     '',
-    `Toolsets enabled by default: ${DEFAULT_TOOLSETS.join(', ')}.`,
+    `${allTools.filter((tool) => tool.essential).length} tools are on by default, including ` +
+      '`find_moneybird_endpoint` and `moneybird_api`, which reach every other endpoint. ' +
+      `Full toolsets enabled by default: ${DEFAULT_TOOLSETS.join(', ') || 'none'}.`,
     '',
     '',
   ].join('\n');

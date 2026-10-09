@@ -63,7 +63,9 @@ function instructionsFor(config: ServerConfig, account: UserAccount | undefined)
   return [
     'Tools for the Moneybird accounting API.',
     '',
-    `Enabled toolsets: ${config.toolsets.join(', ')}. Access: ${mode}.`,
+    `Access: ${mode}.` +
+      (config.toolsets.length > 0 ? ` Full toolsets: ${config.toolsets.join(', ')}.` : ''),
+    'For anything the tools do not cover, use find_moneybird_endpoint and moneybird_api.',
     administrationLine(config, account),
     '',
     'Amounts are decimal strings and follow the administration currency. Dates are ISO 8601.',

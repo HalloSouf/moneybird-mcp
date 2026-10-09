@@ -41,6 +41,13 @@ export interface ToolDefinition<Schema extends z.ZodObject = z.ZodObject> {
   inputSchema: Schema;
   /** Marks a tool whose effect a caller cannot undo through the API. */
   irreversible?: boolean;
+  /**
+   * Registered whatever the toolsets say. Everything else stays off unless its toolset is enabled,
+   * because each tool costs context on every request; `moneybird_api` reaches the rest.
+   */
+  essential?: boolean;
+  /** Checks permissions per call, so `access` only says what registering it needs. */
+  perCallAccess?: boolean;
   handler: (
     args: z.infer<Schema>,
     context: ToolContext,

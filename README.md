@@ -4,8 +4,8 @@ A Model Context Protocol server for the [Moneybird](https://moneybird.com) accou
 
 It exposes Moneybird as a set of MCP tools, so an assistant such as Claude can look up contacts,
 read invoices, check bank mutations, log time and pull reports from your administration. Access is
-read-only until you turn writing on, tools are grouped into toolsets you can enable individually,
-and the client paces its own requests to stay inside Moneybird's rate limit. It speaks stdio for
+read-only until you turn writing on, only the everyday tools are registered by default (the rest of
+the API stays reachable through one generic tool), and the client paces its own requests to stay inside Moneybird's rate limit. It speaks stdio for
 local clients and Streamable HTTP for remote ones.
 
 ## Quick start
@@ -92,7 +92,7 @@ Configuration comes from the environment; CLI flags override it.
 | -------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | `MONEYBIRD_API_TOKEN`            | —                                                                | Token to use, bypassing the stored credentials entirely.                              |
 | `MONEYBIRD_ADMINISTRATION_ID`    | from stored credentials                                          | Administration used when a tool does not name one.                                    |
-| `MONEYBIRD_TOOLSETS`             | `core,invoicing,purchases,banking,time`                          | Toolsets to enable. Accepts `all`, `none`, or `-name` to drop one from the defaults.  |
+| `MONEYBIRD_TOOLSETS`             | _(none)_                                                         | Full toolsets to add to the essential tools. Accepts `all` or `none`.                 |
 | `MONEYBIRD_ALLOW_WRITE`          | `false`                                                          | `true` enables tools that create or modify data.                                      |
 | `MONEYBIRD_ALLOW_DELETE`         | `false`                                                          | `true` enables tools that delete data. Has no effect without `MONEYBIRD_ALLOW_WRITE`. |
 | `MONEYBIRD_TRANSPORT`            | `stdio`                                                          | `stdio` or `http`.                                                                    |
@@ -125,52 +125,45 @@ Configuration comes from the environment; CLI flags override it.
 
 ### Flags
 
-| Flag                    | Command | Meaning                                                                    |
-| ----------------------- | ------- | -------------------------------------------------------------------------- |
-| `--http`                | `serve` | Serve over Streamable HTTP instead of stdio.                               |
-| `--host <host>`         | `serve` | Bind address for `--http`. Default `127.0.0.1`.                            |
-| `--port <port>`         | `serve` | Port for `--http`. Default `3000`.                                         |
-| `--endpoint <path>`     | `serve` | Path the MCP endpoint is served on. Default `/mcp`.                        |
-| `--toolsets <list>`     | `serve` | Comma-separated toolsets; `all`, or `-name` to drop one from the defaults. |
-| `--allow-write`         | `serve` | Enable tools that create or modify data.                                   |
-| `--allow-delete`        | `serve` | Enable tools that delete data. Implies `--allow-write`.                    |
-| `--administration <id>` | `serve` | Default administration id.                                                 |
-| `--oauth`               | `login` | Use the OAuth application flow.                                            |
-| `--oob`                 | `login` | Show the authorization code in the browser instead of redirecting.         |
-| `--port <port>`         | `login` | Loopback port for the OAuth redirect. Default `51739`.                     |
-| `--token <token>`       | `login` | Store a token without prompting.                                           |
-| `--json`                | `tools` | Emit the tool list as JSON.                                                |
-| `--help`, `-h`          | any     | Print usage.                                                               |
-| `--version`, `-v`       | any     | Print the version.                                                         |
+| Flag                    | Command | Meaning                                                                |
+| ----------------------- | ------- | ---------------------------------------------------------------------- |
+| `--http`                | `serve` | Serve over Streamable HTTP instead of stdio.                           |
+| `--host <host>`         | `serve` | Bind address for `--http`. Default `127.0.0.1`.                        |
+| `--port <port>`         | `serve` | Port for `--http`. Default `3000`.                                     |
+| `--endpoint <path>`     | `serve` | Path the MCP endpoint is served on. Default `/mcp`.                    |
+| `--toolsets <list>`     | `serve` | Full toolsets on top of the essential tools; comma-separated or `all`. |
+| `--allow-write`         | `serve` | Enable tools that create or modify data.                               |
+| `--allow-delete`        | `serve` | Enable tools that delete data. Implies `--allow-write`.                |
+| `--administration <id>` | `serve` | Default administration id.                                             |
+| `--oauth`               | `login` | Use the OAuth application flow.                                        |
+| `--oob`                 | `login` | Show the authorization code in the browser instead of redirecting.     |
+| `--port <port>`         | `login` | Loopback port for the OAuth redirect. Default `51739`.                 |
+| `--token <token>`       | `login` | Store a token without prompting.                                       |
+| `--json`                | `tools` | Emit the tool list as JSON.                                            |
+| `--help`, `-h`          | any     | Print usage.                                                           |
+| `--version`, `-v`       | any     | Print the version.                                                     |
 
-## Toolsets
+## Tools and toolsets
 
-Tools are grouped by Moneybird's own domains. Five are enabled by default; the other four are
-opt-in.
+Every tool definition costs context on every request, so by default only the everyday tools are
+registered: contacts, sales invoices, estimates, purchase invoices and receipts, bank mutations,
+time entries, projects, products, ledger accounts and tax rates. Everything else in the API is
+reachable through two generic tools:
 
-| Toolset     | Default | Covers                                                                            |
-| ----------- | ------- | --------------------------------------------------------------------------------- |
-| `core`      | on      | Administrations, contacts, products, projects, ledger accounts, tax rates, users. |
-| `invoicing` | on      | Sales invoices, recurring invoices, estimates, workflows.                         |
-| `purchases` | on      | Purchase invoices, receipts, documents, general journal documents.                |
-| `banking`   | on      | Financial accounts, financial mutations, payment linking.                         |
-| `time`      | on      | Time entries.                                                                     |
-| `reports`   | off     | Profit and loss, balance sheet and other `/reports` endpoints.                    |
-| `assets`    | off     | Fixed assets and depreciation.                                                    |
-| `tasks`     | off     | Notes, tasks, events, custom fields.                                              |
-| `webhooks`  | off     | Webhook subscriptions.                                                            |
+- `find_moneybird_endpoint` searches the pinned endpoint list (`spec/endpoints.json`).
+- `moneybird_api` calls an endpoint from that list. Writes need `--allow-write`; deletes, sending,
+  payments and bookings need `--allow-delete` as well, exactly like the dedicated tools.
 
-Set them explicitly, add to the defaults, or subtract from them:
+The dedicated tools are grouped by Moneybird's own domains (`core`, `invoicing`, `purchases`,
+`banking`, `time`, `reports`, `assets`, `tasks`, `webhooks`). Enable a whole group when you use it
+often enough to want its typed tools:
 
 ```bash
-moneybird-mcp serve --toolsets core,invoicing     # exactly these two
+moneybird-mcp serve --toolsets reports            # essentials plus every report tool
 moneybird-mcp serve --toolsets all                # everything
-moneybird-mcp serve --toolsets reports            # exactly reports
-moneybird-mcp serve --toolsets -banking,-time     # the defaults minus two
 ```
 
-A `-name` entry anywhere in the list means the list starts from the defaults rather than from
-nothing. `all` wins over everything else. An unknown name is an error, not a silent no-op.
+An unknown name is an error, not a silent no-op.
 
 The full per-tool listing is in [docs/tools.md](docs/tools.md), or run `moneybird-mcp tools`.
 
@@ -205,12 +198,12 @@ claude mcp add moneybird --env MONEYBIRD_ALLOW_WRITE=true -- npx -y moneybird-mc
 claude mcp add moneybird -- npx -y moneybird-mcp serve
 ```
 
-With write access and a wider tool selection:
+With write access and the typed report tools:
 
 ```bash
 claude mcp add moneybird \
   --env MONEYBIRD_ALLOW_WRITE=true \
-  --env MONEYBIRD_TOOLSETS=all \
+  --env MONEYBIRD_TOOLSETS=reports \
   -- npx -y moneybird-mcp serve
 ```
 

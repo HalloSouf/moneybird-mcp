@@ -90,10 +90,13 @@ describe('server over the MCP protocol', () => {
     try {
       const { tools } = await harness.client.listTools();
       const list = tools.find((tool) => tool.name === 'list_contacts');
-      const remove = tools.find((tool) => tool.name === 'delete_contact');
+      const send = tools.find((tool) => tool.name === 'send_sales_invoice');
+      const api = tools.find((tool) => tool.name === 'moneybird_api');
 
       expect(list?.annotations?.readOnlyHint).toBe(true);
-      expect(remove?.annotations?.destructiveHint).toBe(true);
+      expect(send?.annotations?.destructiveHint).toBe(true);
+      expect(api?.annotations?.readOnlyHint).toBe(false);
+      expect(api?.annotations?.destructiveHint).toBe(true);
     } finally {
       await harness.close();
     }

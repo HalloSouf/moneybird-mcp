@@ -47,9 +47,9 @@ describe('allTools invariants', () => {
     }
   });
 
-  it('accepts administration_id, except list_administrations which has no administration to name', () => {
+  it('accepts administration_id, except tools that never act on one', () => {
     for (const tool of allTools) {
-      if (tool.name === 'list_administrations') continue;
+      if (tool.name === 'list_administrations' || tool.name === 'find_moneybird_endpoint') continue;
       expect(inputKeys(tool)).toContain('administration_id');
     }
   });

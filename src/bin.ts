@@ -29,7 +29,7 @@ Serve options
   --http                  Serve over Streamable HTTP instead of stdio
   --host <host>           Bind address for --http (default 127.0.0.1)
   --port <port>           Port for --http (default 3000)
-  --toolsets <list>       Comma-separated; "all", or "-name" to drop one from the defaults
+  --toolsets <list>       Full toolsets on top of the essential tools; comma-separated or "all"
   --allow-write           Enable tools that create or modify data
   --allow-delete          Enable tools that delete data (requires --allow-write)
   --administration <id>   Default administration id

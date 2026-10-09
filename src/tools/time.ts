@@ -23,6 +23,7 @@ const TIMESTAMP_NOTE =
 export const timeTools: readonly ToolDefinition[] = [
   defineTool({
     name: 'list_time_entries',
+    essential: true,
     title: 'List time entries',
     description:
       'List tracked time. Without a filter Moneybird returns the current financial year, so pass an explicit ' +
@@ -73,6 +74,7 @@ export const timeTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'create_time_entry',
+    essential: true,
     title: 'Create time entry',
     description:
       'Log time for a user. `user_id`, `started_at` and `description` are required; call list_users for the id. ' +
@@ -285,6 +287,7 @@ export const timeTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'list_projects',
+    essential: true,
     title: 'List projects',
     description:
       'List projects. Moneybird returns only active projects unless the filter says otherwise. Time entries ' +

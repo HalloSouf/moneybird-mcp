@@ -114,6 +114,7 @@ const identityAttributes = z
 export const coreTools: readonly ToolDefinition[] = [
   defineTool({
     name: 'list_administrations',
+    essential: true,
     title: 'List administrations',
     description:
       'List every Moneybird administration this token can access, with id, name, language, currency and country. ' +
@@ -129,6 +130,7 @@ export const coreTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'list_contacts',
+    essential: true,
     title: 'List contacts',
     description:
       'List or search contacts (customers and suppliers). Supply `query` for free-text search across name, ' +
@@ -164,6 +166,7 @@ export const coreTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'get_contact',
+    essential: true,
     title: 'Get contact',
     description:
       'Retrieve a single contact by its Moneybird id, or by your own `customer_id` reference.',
@@ -188,6 +191,7 @@ export const coreTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'create_contact',
+    essential: true,
     title: 'Create contact',
     description:
       'Create a contact. Supply `company_name` for a company, or `firstname` and `lastname` for a person.',
@@ -209,6 +213,7 @@ export const coreTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'update_contact',
+    essential: true,
     title: 'Update contact',
     description: 'Update a contact. Only the attributes you supply are changed.',
     toolset: 'core',
@@ -368,6 +373,7 @@ export const coreTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'list_products',
+    essential: true,
     title: 'List products',
     description: 'List the product catalogue, optionally narrowed by free-text query or currency.',
     toolset: 'core',
@@ -478,6 +484,7 @@ export const coreTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'list_tax_rates',
+    essential: true,
     title: 'List tax rates',
     description:
       'List the VAT rates configured for the administration. Invoice lines reference these by `tax_rate_id`.',
@@ -499,6 +506,7 @@ export const coreTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'list_ledger_accounts',
+    essential: true,
     title: 'List ledger accounts',
     description:
       'List the chart of accounts. Bookings and invoice lines reference these by `ledger_account_id`.',

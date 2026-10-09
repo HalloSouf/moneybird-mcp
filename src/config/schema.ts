@@ -16,14 +16,8 @@ export const TOOLSETS = [
 export const Toolset = z.enum(TOOLSETS);
 export type Toolset = z.infer<typeof Toolset>;
 
-/** Enabled unless `MONEYBIRD_TOOLSETS` says otherwise; the rest are opt-in. */
-export const DEFAULT_TOOLSETS: readonly Toolset[] = [
-  'core',
-  'invoicing',
-  'purchases',
-  'banking',
-  'time',
-];
+/** Full toolsets enabled by default. Essential tools and `moneybird_api` are always there. */
+export const DEFAULT_TOOLSETS: readonly Toolset[] = [];
 
 export const OAUTH_SCOPES = [
   'sales_invoices',
@@ -45,7 +39,7 @@ export const ServerConfig = z.object({
   administrationId: z.string().optional(),
   baseUrl: z.string().url().optional(),
   timeZone: z.string().optional(),
-  toolsets: z.array(Toolset).nonempty(),
+  toolsets: z.array(Toolset),
   allowWrite: z.boolean(),
   allowDelete: z.boolean(),
   transport: Transport,
@@ -125,9 +119,6 @@ export function resolveToolsets(raw: string | undefined): Toolset[] {
     else selected.add(parsed.data);
   }
 
-  if (selected.size === 0) {
-    throw new ConfigError('No toolsets enabled. Set MONEYBIRD_TOOLSETS to at least one toolset.');
-  }
   return TOOLSETS.filter((toolset) => selected.has(toolset));
 }
 
@@ -169,7 +160,7 @@ export function configFromEnv(env: NodeJS.ProcessEnv = process.env): ServerConfi
       : {}),
     ...(env['MONEYBIRD_BASE_URL'] ? { baseUrl: env['MONEYBIRD_BASE_URL'] } : {}),
     ...(env['MONEYBIRD_TIME_ZONE'] ? { timeZone: env['MONEYBIRD_TIME_ZONE'] } : {}),
-    toolsets: resolveToolsets(env['MONEYBIRD_TOOLSETS']) as [Toolset, ...Toolset[]],
+    toolsets: resolveToolsets(env['MONEYBIRD_TOOLSETS']),
     allowWrite: parseBoolean(env['MONEYBIRD_ALLOW_WRITE'], false),
     allowDelete: parseBoolean(env['MONEYBIRD_ALLOW_DELETE'], false),
     transport: transport.data,

@@ -288,6 +288,7 @@ const paymentAttributes = z
 export const invoicingTools: readonly ToolDefinition[] = [
   defineTool({
     name: 'list_sales_invoices',
+    essential: true,
     title: 'List sales invoices',
     description:
       'List sales invoices. Defaults to the current financial year, so pass an explicit `period` in the filter ' +
@@ -315,6 +316,7 @@ export const invoicingTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'get_sales_invoice',
+    essential: true,
     title: 'Get sales invoice',
     description:
       'Retrieve one sales invoice by its Moneybird id, including its lines, payments and notes.',
@@ -376,6 +378,7 @@ export const invoicingTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'create_sales_invoice',
+    essential: true,
     title: 'Create sales invoice',
     description:
       'Create a sales invoice as a draft. Supply `contact_id` and the lines in `details_attributes`; ' +
@@ -442,6 +445,7 @@ export const invoicingTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'send_sales_invoice',
+    essential: true,
     title: 'Send sales invoice',
     description:
       'Send a sales invoice to the customer, or schedule it for a future date. With no arguments the contact ' +
@@ -501,6 +505,7 @@ export const invoicingTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'register_sales_invoice_payment',
+    essential: true,
     title: 'Register sales invoice payment',
     description:
       'Record a payment against a sales invoice, marking it (partly) paid. This books a mutation; ' +
@@ -581,6 +586,7 @@ export const invoicingTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'download_sales_invoice_pdf',
+    essential: true,
     title: 'Download sales invoice PDF',
     description:
       'Return a download URL for the invoice PDF. The link is signed and expires after 30 seconds, so use it ' +
@@ -641,6 +647,7 @@ export const invoicingTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'list_estimates',
+    essential: true,
     title: 'List estimates',
     description:
       'List estimates (quotes). Defaults to the current financial year, so pass an explicit `period` in the ' +
@@ -695,6 +702,7 @@ export const invoicingTools: readonly ToolDefinition[] = [
 
   defineTool({
     name: 'create_estimate',
+    essential: true,
     title: 'Create estimate',
     description:
       'Create an estimate (quote) as a draft. Supply `contact_id` and the lines in `details_attributes`; ' +

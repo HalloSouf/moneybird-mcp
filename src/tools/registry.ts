@@ -116,7 +116,7 @@ export function registerTools(options: RegisterOptions): RegistrationSummary {
   for (const definition of definitions) {
     const unconditional = options.always?.has(definition.name) ?? false;
 
-    if (!unconditional && !enabled.has(definition.toolset)) {
+    if (!unconditional && !definition.essential && !enabled.has(definition.toolset)) {
       summary.skippedByToolset.push(definition.name);
       continue;
     }
@@ -125,6 +125,7 @@ export function registerTools(options: RegisterOptions): RegistrationSummary {
       continue;
     }
 
+    const mutable = (definition.perCallAccess ?? false) && permissions.write;
     server.registerTool(
       definition.name,
       {
@@ -133,9 +134,9 @@ export function registerTools(options: RegisterOptions): RegistrationSummary {
         inputSchema: definition.inputSchema,
         annotations: {
           title: definition.title,
-          readOnlyHint: definition.access === 'read',
-          destructiveHint: definition.access === 'destroy',
-          idempotentHint: definition.access === 'read',
+          readOnlyHint: definition.access === 'read' && !mutable,
+          destructiveHint: definition.access === 'destroy' || (mutable && permissions.destroy),
+          idempotentHint: definition.access === 'read' && !mutable,
           openWorldHint: true,
         },
       },
