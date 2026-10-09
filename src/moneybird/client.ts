@@ -16,8 +16,11 @@ import {
 
 export const DEFAULT_BASE_URL = 'https://moneybird.com/api/v2';
 
-/** Resolves the bearer token for a request; may refresh an expired OAuth token. */
-export type TokenProvider = () => string | Promise<string>;
+/**
+ * Resolves the bearer token for a request; may refresh an expired OAuth token. Receives the
+ * administration the request targets, because a Moneybird OAuth token is bound to one.
+ */
+export type TokenProvider = (administrationId?: string) => string | Promise<string>;
 
 /** Resolves the default administration, which can change while the server is running. */
 export type AdministrationProvider = () => string | undefined;
@@ -238,7 +241,7 @@ export class MoneybirdClient {
   }
 
   private async send(url: string, method: string, options: RequestOptions): Promise<Response> {
-    const token = await this.getToken();
+    const token = await this.getToken(options.administrationId ?? this.resolveAdministrationId());
     const headers = new Headers({
       authorization: `Bearer ${token}`,
       accept: 'application/json',

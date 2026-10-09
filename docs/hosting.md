@@ -169,7 +169,42 @@ matching. [RFC 8252 section 7.3](https://datatracker.ietf.org/doc/html/rfc8252#s
 requires this. The exception is confined to loopback addresses; everywhere else the comparison is
 exact.
 
-### Choosing between the modes
+### `airlock`
+
+For running behind [Airlock](https://github.com/ultimatelemon/airlock), an OAuth gateway that
+authenticates every request and names the user in `X-Airlock-User`. This server trusts that header
+and keeps each user's Moneybird authorizations, one per administration. The port must only be
+reachable through Airlock.
+
+```bash
+docker run --rm \
+  -e MONEYBIRD_HTTP_AUTH=airlock \
+  -e MONEYBIRD_PUBLIC_URL=https://mcp.example.com/moneybird \
+  -e MONEYBIRD_DATABASE_URL=postgres://user:pass@db:5432/mb_prod \
+  -e MONEYBIRD_TOKEN_ENCRYPTION_KEY="$(openssl rand -hex 32)" \
+  -e MONEYBIRD_CLIENT_ID=your-application-id \
+  -e MONEYBIRD_CLIENT_SECRET=your-application-secret \
+  -e MONEYBIRD_ALLOW_WRITE=true \
+  moneybird-mcp
+```
+
+`MONEYBIRD_PUBLIC_URL` is the MCP url as a browser reaches it through Airlock. Labels:
+
+```yaml
+airlock.enable: 'true'
+airlock.path: /moneybird
+airlock.upstream: http://moneybird:3000/mcp
+airlock.public: /connect,/oauth/callback
+```
+
+Register `MONEYBIRD_PUBLIC_URL` + `/oauth/callback` with your Moneybird application.
+
+`connect_moneybird` returns a single-use link, valid for ten minutes and bound to the user who
+asked for it. The page it opens names that user before sending the browser to Moneybird; the
+callback stores the authorization under them. Call it once per administration. With one
+administration connected, tools default to it; with several, every call names one.
+
+
 
 |                                    | `shared-token`                  | `passthrough`                  | `oauth`                              |
 | ---------------------------------- | ------------------------------- | ------------------------------ | ------------------------------------ |

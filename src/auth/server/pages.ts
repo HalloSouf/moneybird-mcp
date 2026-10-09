@@ -16,6 +16,10 @@ const STYLE = `
     background: #fff; color: inherit; border: 1px solid #dcdcd6; border-radius: .5rem;
   }
   button:hover { border-color: #1a1a18; }
+  a.button {
+    display: block; text-align: center; padding: .875rem 1rem; border-radius: .5rem;
+    background: #1a1a18; color: #fbfbfa; text-decoration: none; font-weight: 600;
+  }
   .name { font-weight: 600; }
   .secondary { margin-top: 1rem; }
   .secondary button { text-align: center; color: #5c5c56; }
@@ -27,6 +31,7 @@ const STYLE = `
     p, .meta { color: #a3a39c; }
     button { background: #201f1d; border-color: #35342f; }
     button:hover { border-color: #f2f2ef; }
+    a.button { background: #f2f2ef; color: #171715; }
   }
 `;
 
@@ -109,4 +114,25 @@ export function administrationPage(
 
 export function errorPage(title: string, detail: string): string {
   return page(title, `<h1>${escapeHtml(title)}</h1><p>${escapeHtml(detail)}</p>`);
+}
+
+export function connectPage(email: string | undefined, authorizeUrl: string): string {
+  const who = email ? `the account <strong>${escapeHtml(email)}</strong>` : 'your account';
+  return page(
+    'Connect Moneybird',
+    `<h1>Connect Moneybird</h1>
+     <p>The administration you authorize at Moneybird will be linked to ${who}. If you did not ask
+        for this link yourself, close this page.</p>
+     <a class="button" href="${escapeHtml(authorizeUrl)}">Continue to Moneybird</a>`,
+  );
+}
+
+export function connectedPage(names: readonly string[]): string {
+  const items = names.map((name) => `<li class="name">${escapeHtml(name)}</li>`).join('');
+  return page(
+    'Moneybird connected',
+    `<h1>Moneybird connected</h1>
+     <p>You can close this page and go back to your conversation.</p>
+     <ul>${items}</ul>`,
+  );
 }

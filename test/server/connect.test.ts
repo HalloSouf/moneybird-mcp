@@ -88,7 +88,7 @@ describe('connecting from inside the conversation', () => {
   it('starts without credentials instead of failing', async () => {
     const h = await harness({ body: ADMINISTRATIONS });
     try {
-      expect(h.session.isAuthenticated).toBe(false);
+      expect(h.session?.isAuthenticated).toBe(false);
       const names = (await h.client.listTools()).tools.map((tool) => tool.name);
       expect(names).toContain('connect_moneybird');
       expect(names).toContain('moneybird_connection_status');
@@ -121,8 +121,8 @@ describe('connecting from inside the conversation', () => {
       });
 
       expect(JSON.stringify(result)).toContain('Connected to Moneybird');
-      expect(h.session.isAuthenticated).toBe(true);
-      expect(h.session.administrationId).toBe('456');
+      expect(h.session?.isAuthenticated).toBe(true);
+      expect(h.session?.administrationId).toBe('456');
 
       const stored = await h.store.read();
       expect(stored?.accessToken).toBe('pasted-token');
@@ -162,7 +162,7 @@ describe('connecting from inside the conversation', () => {
       expect(h.elicited[0]?.url).toBe('https://moneybird.com/user/applications/new');
       expect(JSON.stringify(result)).toContain('Connected to Moneybird');
 
-      expect(h.session.isAuthenticated).toBe(true);
+      expect(h.session?.isAuthenticated).toBe(true);
       expect((await h.store.read())?.accessToken).toBe('elicited-token');
     } finally {
       await h.close();
@@ -178,7 +178,7 @@ describe('connecting from inside the conversation', () => {
 
       expect(h.elicited.map((entry) => entry.mode)).toEqual(['form']);
       expect(h.elicited[0]?.message).toContain('moneybird.com/user/applications/new');
-      expect(h.session.isAuthenticated).toBe(true);
+      expect(h.session?.isAuthenticated).toBe(true);
     } finally {
       await h.close();
     }

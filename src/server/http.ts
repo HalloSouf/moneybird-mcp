@@ -3,6 +3,7 @@ import { timingSafeEqual } from 'node:crypto';
 import { createMcpHandler, type McpRequestContext } from '@modelcontextprotocol/server';
 import { toNodeHandler } from '@modelcontextprotocol/node';
 import type { ServerConfig } from '../config/schema.js';
+import { callerFrom, type AirlockAccounts } from '../auth/airlock.js';
 import type {
   AuthenticatedCaller,
   AuthorizationServer,
@@ -18,14 +19,18 @@ import { createMoneybirdServer, type CreateServerOptions } from './create.js';
  *                    serve many administrations without ever storing a credential.
  * - `oauth`        — the server runs an OAuth authorization server in front of Moneybird and
  *                    resolves its own tokens to the credential a user authorized.
+ * - `airlock`      — Airlock authenticates the caller and names them in `X-Airlock-User`; the
+ *                    server keeps each user's Moneybird authorizations.
  */
-export type HttpAuthMode = 'none' | 'shared-token' | 'passthrough' | 'oauth';
+export type HttpAuthMode = 'none' | 'shared-token' | 'passthrough' | 'oauth' | 'airlock';
 
 export interface HttpServerOptions extends CreateServerOptions {
   authMode: HttpAuthMode;
   sharedToken?: string | undefined;
   /** Required for `oauth`; serves the flow and resolves bearer tokens to Moneybird credentials. */
   authorizationServer?: AuthorizationServer | undefined;
+  /** Required for `airlock`; serves the connect flow and resolves users to their authorizations. */
+  accounts?: AirlockAccounts | undefined;
   /** Additional path prefix, e.g. `/mcp`. Requests outside it get a 404. */
   endpoint?: string;
   onError?: (error: Error) => void;
@@ -95,8 +100,13 @@ export async function serveHttp(
   const endpoint = options.endpoint ?? '/mcp';
   const authorizationServer = options.authorizationServer;
 
+  const accounts = options.accounts;
+
   if (options.authMode === 'oauth' && !authorizationServer) {
     throw new Error('The oauth auth mode requires an authorization server.');
+  }
+  if (options.authMode === 'airlock' && !accounts) {
+    throw new Error('The airlock auth mode requires accounts.');
   }
 
   // The guard resolves the caller once; the factory needs the same answer a moment later and the
@@ -105,6 +115,16 @@ export async function serveHttp(
 
   const factory = async (context: McpRequestContext) => {
     let perRequest: Partial<ServerConfig> = {};
+
+    if (options.authMode === 'airlock' && accounts) {
+      const caller = context.requestInfo ? callerFrom(context.requestInfo) : undefined;
+      if (!caller) throw new Error('Request reached the MCP handler without an Airlock user.');
+      const { server } = await createMoneybirdServer({
+        ...options,
+        account: await accounts.forCaller(caller),
+      });
+      return server;
+    }
 
     if (context.requestInfo) {
       if (options.authMode === 'passthrough') {
@@ -154,6 +174,10 @@ export async function serveHttp(
         const handled = await authorizationServer.handle(request);
         if (handled) return handled;
       }
+      if (accounts) {
+        const handled = await accounts.handle(request);
+        if (handled) return handled;
+      }
 
       if (url.pathname !== endpoint) {
         return new Response('Not found', { status: 404 });
@@ -169,6 +193,12 @@ export async function serveHttp(
           return authorizationServer.unauthorized('Unknown, expired or revoked token.');
         }
         resolved.set(request, caller);
+        return handler.fetch(request);
+      }
+
+      if (options.authMode === 'airlock') {
+        // Only Airlock can reach this port, and it strips any X-Airlock-* header a client sends.
+        if (!callerFrom(request)) return unauthorized('Missing X-Airlock-User header.');
         return handler.fetch(request);
       }
 

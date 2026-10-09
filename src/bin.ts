@@ -12,6 +12,8 @@ import { serveStdio } from './server/stdio.js';
 import { serveHttp, type HttpAuthMode } from './server/http.js';
 import { AuthorizationServer } from './auth/server/authorization-server.js';
 import { PostgresAuthorizationStore } from './db/postgres.js';
+import { PostgresConnectionStore } from './db/connections.js';
+import { AirlockAccounts } from './auth/airlock.js';
 import { migrate } from './db/migrate.js';
 
 const USAGE = `moneybird-mcp — Model Context Protocol server for the Moneybird API
@@ -45,13 +47,13 @@ Environment
   MONEYBIRD_ALLOW_WRITE       "true" to enable write tools
   MONEYBIRD_ALLOW_DELETE      "true" to enable delete tools
   MONEYBIRD_TRANSPORT         "stdio" or "http"
-  MONEYBIRD_HTTP_AUTH         "none", "shared-token", "passthrough" or "oauth"
+  MONEYBIRD_HTTP_AUTH         "none", "shared-token", "passthrough", "oauth" or "airlock"
   MONEYBIRD_MCP_AUTH_TOKEN    Shared secret for --http with "shared-token"
   MONEYBIRD_TIME_ZONE         IANA time zone for date-sensitive endpoints
   MONEYBIRD_CLIENT_ID         OAuth application client id
   MONEYBIRD_CLIENT_SECRET     OAuth application client secret
-  MONEYBIRD_PUBLIC_URL        Public origin, required by MONEYBIRD_HTTP_AUTH=oauth
-  MONEYBIRD_DATABASE_URL      Postgres for the authorization server, required by "oauth"
+  MONEYBIRD_PUBLIC_URL        Public origin ("oauth") or public MCP url ("airlock")
+  MONEYBIRD_DATABASE_URL      Postgres, required by "oauth" and "airlock"
   MONEYBIRD_TOKEN_ENCRYPTION_KEY  32 bytes of hex encrypting Moneybird tokens at rest
 
 Full documentation: https://github.com/HalloSouf/moneybird-mcp
@@ -136,7 +138,8 @@ function httpAuthMode(env: NodeJS.ProcessEnv): HttpAuthMode {
     explicit === 'none' ||
     explicit === 'shared-token' ||
     explicit === 'passthrough' ||
-    explicit === 'oauth'
+    explicit === 'oauth' ||
+    explicit === 'airlock'
   ) {
     return explicit;
   }
@@ -150,54 +153,97 @@ function httpAuthMode(env: NodeJS.ProcessEnv): HttpAuthMode {
  * applying it before the port opens means a deploy can never answer requests against a schema one
  * release behind. A failure aborts startup, which is the honest outcome.
  */
-async function startAuthorizationServer(
-  config: ServerConfig,
-  endpoint: string,
-): Promise<{ server: AuthorizationServer; close: () => Promise<void> }> {
+interface HostedConfig {
+  publicUrl: string;
+  databaseUrl: string;
+  tokenEncryptionKey: string;
+  oauth: NonNullable<ServerConfig['oauth']>;
+}
+
+function requireHostedConfig(config: ServerConfig, mode: HttpAuthMode): HostedConfig {
   if (!config.publicUrl) {
     throw new ConfigError(
-      'MONEYBIRD_HTTP_AUTH=oauth requires MONEYBIRD_PUBLIC_URL, the origin clients reach this ' +
-        'server on. It is what the OAuth metadata and the Moneybird redirect uri are built from.',
+      `MONEYBIRD_HTTP_AUTH=${mode} requires MONEYBIRD_PUBLIC_URL, the url browsers reach this ` +
+        'server on. The Moneybird redirect uri is built from it.',
     );
   }
   if (!config.databaseUrl) {
-    throw new ConfigError('MONEYBIRD_HTTP_AUTH=oauth requires MONEYBIRD_DATABASE_URL.');
+    throw new ConfigError(`MONEYBIRD_HTTP_AUTH=${mode} requires MONEYBIRD_DATABASE_URL.`);
   }
   if (!config.tokenEncryptionKey) {
     throw new ConfigError(
-      'MONEYBIRD_HTTP_AUTH=oauth requires MONEYBIRD_TOKEN_ENCRYPTION_KEY. ' +
+      `MONEYBIRD_HTTP_AUTH=${mode} requires MONEYBIRD_TOKEN_ENCRYPTION_KEY. ` +
         'Generate one with: openssl rand -hex 32',
     );
   }
   if (!config.oauth) {
     throw new ConfigError(
-      'MONEYBIRD_HTTP_AUTH=oauth requires MONEYBIRD_CLIENT_ID and MONEYBIRD_CLIENT_SECRET: the ' +
+      `MONEYBIRD_HTTP_AUTH=${mode} requires MONEYBIRD_CLIENT_ID and MONEYBIRD_CLIENT_SECRET: the ` +
         'server authorizes users through your own Moneybird application.',
     );
   }
+  return {
+    publicUrl: config.publicUrl,
+    databaseUrl: config.databaseUrl,
+    tokenEncryptionKey: config.tokenEncryptionKey,
+    oauth: config.oauth,
+  };
+}
 
-  const store = new PostgresAuthorizationStore({
-    connectionString: config.databaseUrl,
-    encryptionKey: config.tokenEncryptionKey,
-  });
-
+async function migrateDatabase(pool: PostgresConnectionStore['connectionPool']): Promise<void> {
   const applied = await migrate({
-    pool: store.connectionPool,
+    pool,
     onApplied: (name) => out.line(`applied migration ${name}`),
   });
   if (applied.length === 0) out.line('database schema up to date');
+}
+
+async function startAuthorizationServer(
+  config: ServerConfig,
+  endpoint: string,
+): Promise<{ server: AuthorizationServer; close: () => Promise<void> }> {
+  const hosted = requireHostedConfig(config, 'oauth');
+  const store = new PostgresAuthorizationStore({
+    connectionString: hosted.databaseUrl,
+    encryptionKey: hosted.tokenEncryptionKey,
+  });
+  await migrateDatabase(store.connectionPool);
 
   const server = new AuthorizationServer({
     store,
-    issuer: config.publicUrl,
+    issuer: hosted.publicUrl,
     endpoint,
-    clientId: config.oauth.clientId,
-    clientSecret: config.oauth.clientSecret,
-    scopes: config.oauth.scopes,
+    clientId: hosted.oauth.clientId,
+    clientSecret: hosted.oauth.clientSecret,
+    scopes: hosted.oauth.scopes,
     baseUrl: config.baseUrl,
   });
 
   return { server, close: () => store.close() };
+}
+
+async function startAccounts(
+  config: ServerConfig,
+  endpoint: string,
+): Promise<{ accounts: AirlockAccounts; close: () => Promise<void> }> {
+  const hosted = requireHostedConfig(config, 'airlock');
+  const store = new PostgresConnectionStore({
+    connectionString: hosted.databaseUrl,
+    encryptionKey: hosted.tokenEncryptionKey,
+  });
+  await migrateDatabase(store.connectionPool);
+
+  const accounts = new AirlockAccounts({
+    store,
+    publicUrl: hosted.publicUrl,
+    endpoint,
+    clientId: hosted.oauth.clientId,
+    clientSecret: hosted.oauth.clientSecret,
+    scopes: hosted.oauth.scopes,
+    baseUrl: config.baseUrl,
+  });
+
+  return { accounts, close: () => store.close() };
 }
 
 async function runServe(config: ServerConfig, flags: Flags, version: string): Promise<void> {
@@ -220,12 +266,14 @@ async function runServe(config: ServerConfig, flags: Flags, version: string): Pr
     const endpoint = flags.values.get('endpoint') ?? '/mcp';
     const authorization =
       authMode === 'oauth' ? await startAuthorizationServer(config, endpoint) : undefined;
+    const airlock = authMode === 'airlock' ? await startAccounts(config, endpoint) : undefined;
 
     const handle = await serveHttp({
       config,
       authMode,
       ...(sharedToken ? { sharedToken } : {}),
       ...(authorization ? { authorizationServer: authorization.server } : {}),
+      ...(airlock ? { accounts: airlock.accounts } : {}),
       endpoint,
       version,
       onError: (error) => out.error(error.message),
@@ -238,6 +286,7 @@ async function runServe(config: ServerConfig, flags: Flags, version: string): Pr
       void handle
         .close()
         .then(() => authorization?.close())
+        .then(() => airlock?.close())
         .then(() => process.exit(0));
     };
     process.on('SIGINT', shutdown);
