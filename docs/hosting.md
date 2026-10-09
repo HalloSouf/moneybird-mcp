@@ -204,7 +204,7 @@ asked for it. The page it opens names that user before sending the browser to Mo
 callback stores the authorization under them. Call it once per administration. With one
 administration connected, tools default to it; with several, every call names one.
 
-
+### Choosing between the modes
 
 |                                    | `shared-token`                  | `passthrough`                  | `oauth`                              |
 | ---------------------------------- | ------------------------------- | ------------------------------ | ------------------------------------ |
